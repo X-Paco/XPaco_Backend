@@ -1,18 +1,11 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => queryInterface.createTable('Utilizados', {
-    material_id: {
+    midia_id: {
       type: Sequelize.INTEGER,
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-    },
-    material_id: {
-      type: Sequelize.INTEGER,
-      references: { models: 'materiais', key: 'material_id' },
-      allowNull: false,
-      onUpdate: 'CASCADE',
-      onDelete: 'CASCADE',
     },
     publicacao_id: {
       type: Sequelize.INTEGER,
@@ -20,6 +13,19 @@ module.exports = {
       allowNull: false,
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
+    },
+    curtida: {
+      type: Sequelize.INTEGER,
+      allowNull: true,
+    },
+    check: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+    },
+    link: {
+      type: Sequelize.STRING,
+      allowNull: false,
     },
     created_at: {
       type: Sequelize.DATE,
