@@ -1,20 +1,8 @@
 import Sequelize from 'sequelize';
 import databaseConfig from '../config/database';
-const models = [];
 
-class Database {
-  constructor() {
-    this.init();
-  }
+const Usuario = require('../app/models/Usuarios');
 
-  init() {
-    this.connection = new Sequelize(databaseConfig);
-    models.map((model) => model.init(this.connection))
-      .map((model) => {
-        if (model.associate) model.associate(this.connection.models);
-        return model;
-      })
-  }
-}
+Usuario.init(Connection);
 
-export default new Database();
+module.exports = Connection;

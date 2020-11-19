@@ -1,8 +1,8 @@
 'use strict';
 
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('juridicas', {
-    razao: {
+  up: async (queryInterface, Sequelize) => queryInterface.createTable('Tipos_Users', {
+    user_id: {
       type: Sequelize.INTEGER,
       /* definido como false - um campo não pode ser criado como nulo */
       allowNull: false,
@@ -11,11 +11,14 @@ module.exports = {
       /* chave primaria não pode ter dois ou mais registros de mesmo valor e também não pode ter valor nulo */
       primaryKey: true,
     },
-    cnpj: {
-      type: Sequelize.STRING(10),
-      allowNull: true,
+    tipo_id: {
+      type: Sequelize.INTEGER,
+      references: { model: 'tipos_users', key: 'tipo_id' },
+      allowNull: false,
+      onUpdate: 'CASCADE',
+      onDelete: 'SET NULL',
     },
-    data_abertura: {
+    email: {
       type: Sequelize.STRING(50),
       allowNull: false,
       unique: true,
@@ -70,5 +73,5 @@ module.exports = {
     },
   }),
 
-  down: (queryInterface) => queryInterface.dropTable('juridicas')
+  down: async (queryInterface) => queryInterface.dropTable('usuarios')
 };
