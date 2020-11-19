@@ -1,5 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
-class Usuario extends Model {
+class users extends Model {
   static init(sequelize) {
     super.init({
       tipo_id: DataTypes.STRING,
@@ -9,4 +9,4 @@ class Usuario extends Model {
     );
   }
 }
-export default Usuario;
+export default users;

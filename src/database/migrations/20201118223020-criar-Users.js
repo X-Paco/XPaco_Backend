@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => queryInterface.createTable('Tipos_Users', {
+  up: async (queryInterface, Sequelize) => queryInterface.createTable('Users', {
     user_id: {
       type: Sequelize.INTEGER,
       /* definido como false - um campo não pode ser criado como nulo */
@@ -23,8 +23,16 @@ module.exports = {
       allowNull: false,
       unique: true,
     },
+    senha_hash: {
+      type: Sequelize.STRING(50),
+      allowNull: true,
+    },
     cod_pais: {
       type: Sequelize.STRING(3),
+      allowNull: true,
+    },
+    celular: {
+      type: Sequelize.STRING(12),
       allowNull: true,
     },
     telefone: {
@@ -36,7 +44,7 @@ module.exports = {
       allowNull: true,
     },
     endereco: {
-      type: Sequelize.STRING(50),
+      type: Sequelize.STRING(100),
       allowNull: true,
     },
     bairro: {
@@ -44,7 +52,7 @@ module.exports = {
       allowNull: true,
     },
     cidade: {
-      type: Sequelize.STRING(30),
+      type: Sequelize.STRING(50),
       allowNull: true,
     },
     uf: {
@@ -59,10 +67,6 @@ module.exports = {
       type: Sequelize.STRING(10),
       allowNull: true,
     },
-    senha_hash: {
-      type: Sequelize.STRING(50),
-      allowNull: true,
-    },
     created_at: {
       type: Sequelize.DATE,
       allowNull: false,
@@ -73,5 +77,5 @@ module.exports = {
     },
   }),
 
-  down: async (queryInterface) => queryInterface.dropTable('usuarios')
+  down: async (queryInterface) => queryInterface.dropTable('Users')
 };
