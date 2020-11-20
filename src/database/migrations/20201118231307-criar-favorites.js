@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
-  up: async (queryInterface, Sequelize) => queryInterface.createTable('Favoritas', {
-    favorita_id: {
+  up: async (queryInterface, Sequelize) => queryInterface.createTable('favorites', {
+    id: {
       type: Sequelize.INTEGER,
       allowNull: false,
       autoIncrement: true,
@@ -9,14 +9,14 @@ module.exports = {
     },
     user_id: {
       type: Sequelize.INTEGER,
-      references: { models: 'users', key: 'user_id' },
+      references: { models: 'users', key: 'id' },
       allowNull: false,
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
     },
-    publicacao_id: {
+    production_id: {
       type: Sequelize.INTEGER,
-      references: { model: 'publicacoes', key: 'publicacao_id' },
+      references: { model: 'productions', key: 'id' },
       allowNull: false,
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
@@ -31,5 +31,5 @@ module.exports = {
     },
   }),
 
-  down: async (queryInterface) => queryInterface.dropTable('Favoritas')
+  down: async (queryInterface) => queryInterface.dropTable('favorites')
 };

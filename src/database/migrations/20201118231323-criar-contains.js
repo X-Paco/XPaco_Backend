@@ -1,22 +1,16 @@
 'use strict';
 module.exports = {
-  up: async (queryInterface, Sequelize) => queryInterface.createTable('Utilizados', {
+  up: async (queryInterface, Sequelize) => queryInterface.createTable('contains', {
     material_id: {
       type: Sequelize.INTEGER,
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    material_id: {
-      type: Sequelize.INTEGER,
-      references: { models: 'materiais', key: 'material_id' },
+      references: { models: 'materials', key: 'id' },
       allowNull: false,
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
     },
     publicacao_id: {
       type: Sequelize.INTEGER,
-      references: { model: 'publicacoes', key: 'publicacao_id' },
+      references: { model: 'productions', key: 'id' },
       allowNull: false,
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
@@ -31,5 +25,5 @@ module.exports = {
     },
   }),
 
-  down: async (queryInterface) => queryInterface.dropTable('Utilizados')
+  down: async (queryInterface) => queryInterface.dropTable('contains')
 };

@@ -1,8 +1,8 @@
 'use strict';
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => queryInterface.createTable('Users', {
-    user_id: {
+  up: async (queryInterface, Sequelize) => queryInterface.createTable('users', {
+    id: {
       type: Sequelize.INTEGER,
       /* definido como false - um campo não pode ser criado como nulo */
       allowNull: false,
@@ -11,60 +11,33 @@ module.exports = {
       /* chave primaria não pode ter dois ou mais registros de mesmo valor e também não pode ter valor nulo */
       primaryKey: true,
     },
-    tipo_id: {
+    type_id: {
       type: Sequelize.INTEGER,
-      references: { model: 'tipos_users', key: 'tipo_id' },
+      references: { model: 'types_users', key: 'id' },
       allowNull: false,
       onUpdate: 'CASCADE',
       onDelete: 'SET NULL',
+    },
+    name: {
+      type: Sequelize.STRING(50),
+      allowNull: false,
+    },
+    nickname: {
+      type: Sequelize.STRING(15),
+      allowNull: false,
+      unique: true,
     },
     email: {
       type: Sequelize.STRING(50),
       allowNull: false,
       unique: true,
     },
-    senha_hash: {
+    password_hash: {
       type: Sequelize.STRING(50),
-      allowNull: true,
+      allowNull: false,
     },
-    cod_pais: {
-      type: Sequelize.STRING(3),
-      allowNull: true,
-    },
-    celular: {
+    mobile: {
       type: Sequelize.STRING(12),
-      allowNull: true,
-    },
-    telefone: {
-      type: Sequelize.STRING(12),
-      allowNull: true,
-    },
-    numero: {
-      type: Sequelize.STRING(10),
-      allowNull: true,
-    },
-    endereco: {
-      type: Sequelize.STRING(100),
-      allowNull: true,
-    },
-    bairro: {
-      type: Sequelize.STRING(50),
-      allowNull: true,
-    },
-    cidade: {
-      type: Sequelize.STRING(50),
-      allowNull: true,
-    },
-    uf: {
-      type: Sequelize.STRING(2),
-      allowNull: true,
-    },
-    cep: {
-      type: Sequelize.STRING(10),
-      allowNull: true,
-    },
-    natureza: {
-      type: Sequelize.STRING(10),
       allowNull: true,
     },
     created_at: {
@@ -77,5 +50,5 @@ module.exports = {
     },
   }),
 
-  down: async (queryInterface) => queryInterface.dropTable('Users')
+  down: async (queryInterface) => queryInterface.dropTable('users')
 };
