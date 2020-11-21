@@ -1,16 +1,21 @@
 import { Router } from 'express';
-import Usuario from './app/models/Usuarios';
 
+import TypeUser from './app/models/TypeUser';
+import User from './app/models/User';
+import Production from './app/models/Production';
+import Material from './app/models/Material';
+import Favorite from './app/models/Favorite';
+import Contain from './app/models/Contain';
+import Media from './app/models/Media';
+import Profile from './app/models/Profile';
 const Routes = new Router();
 
-Routes.get('/teste', async (req, res) => {
-  const usuario = await Usuario.create({
-    tipo_id: '2',
-    email: 'email@email.com',
-    senha_hash: '123456',
+Routes.get('/tipousuario', async (req, res) => {
+  const TypeUser = await TypeUser.create({
+    description: 'Pessoa Física',
   });
 
-  return res.json(usuario);
+  return res.json(TypeUser);
 });
 
 export default Routes;

@@ -9,7 +9,6 @@ class User extends Model {
   static init(sequelize) {
     super.init(
       {
-        type_id: Sequelize.INTEGER,
         nickname: Sequelize.STRING,
         email: Sequelize.STRING,
         password_hash: Sequelize.STRING,
@@ -19,6 +18,10 @@ class User extends Model {
         sequelize,
       }
     );
+    return this;
+  }
+  static associate(models) {
+    this.belongsTo(models.TypeUser, { foreignKey: 'type_id', as: 'type_user' });
   }
 }
 export default User;
