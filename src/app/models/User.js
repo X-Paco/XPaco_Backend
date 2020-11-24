@@ -25,4 +25,4 @@ class User extends Model {
     this.belongsTo(models.TypeUser, { foreignKey: 'type_id', as: 'type' });
   }
 }
-export default User;
+export default User; 
