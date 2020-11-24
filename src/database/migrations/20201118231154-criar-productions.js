@@ -19,7 +19,7 @@ module.exports = {
       type: Sequelize.STRING,
       allowNull: true,
     },
-    check: {
+    checking: {
       type: Sequelize.BOOLEAN,
       defaultValue: false,
       allowNull: false,
