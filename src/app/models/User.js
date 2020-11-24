@@ -1,9 +1,10 @@
-/* Modo antigo
+/*Modo antigo
 //import { Sequelize } from 'sequelize';
 //const { Model, DataTypes } = require('sequelize');
 Ex:
 email: DataTypes.STRING,
 */
+
 import Sequelize, { Model } from 'sequelize';
 class User extends Model {
   static init(sequelize) {

@@ -7,8 +7,8 @@ module.exports = {
           model: 'users',
           key: 'id',
         },
-        onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
         allowNull: false,
       },
       production_id: {
@@ -17,8 +17,12 @@ module.exports = {
           model: 'productions',
           key: 'id',
         },
-        onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        allowNull: false,
+      },
+      status: {
+        type: Sequelize.SRINTG,
         allowNull: false,
       }
     })
@@ -26,6 +30,7 @@ module.exports = {
         return queryInterface.addConstraint('favorites', ['user_id', 'production_id'], {
           type: 'primary key',
           name: 'favorite_pkey',
+          unique: true,
         });
       });
   },
