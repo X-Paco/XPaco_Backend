@@ -1,19 +1,18 @@
-'use strict';
 module.exports = {
-  up: async (queryInterface, Sequelize) => queryInterface.createTable('contains', {
+  up: async (queryInterface, Sequelize) => queryInterface.createTable('productions_materiais', {
     material_id: {
       type: Sequelize.INTEGER,
       references: { models: 'materials', key: 'id' },
       allowNull: false,
-      onUpdate: 'CASCADE',
-      onDelete: 'CASCADE',
+      onUpdate: 'RESTRICT',
+      onDelete: 'RESTRICT',
     },
     publicacao_id: {
       type: Sequelize.INTEGER,
       references: { model: 'productions', key: 'id' },
       allowNull: false,
-      onUpdate: 'CASCADE',
-      onDelete: 'CASCADE',
+      onUpdate: 'RESTRICT',
+      onDelete: 'RESTRICT',
     },
     created_at: {
       type: Sequelize.DATE,
@@ -25,5 +24,5 @@ module.exports = {
     },
   }),
 
-  down: async (queryInterface) => queryInterface.dropTable('contains')
+  down: async (queryInterface) => queryInterface.dropTable('productions_materiais')
 };
