@@ -1,10 +1,3 @@
-/*Modo antigo
-//import { Sequelize } from 'sequelize';
-//const { Model, DataTypes } = require('sequelize');
-Ex:
-email: DataTypes.STRING,
-*/
-
 import Sequelize, { Model } from 'sequelize';
 class User extends Model {
   static init(sequelize) {
@@ -24,6 +17,8 @@ class User extends Model {
   }
   static associate(models) {
     this.belongsTo(models.TypeUser, { foreignKey: 'type_id', as: 'type' });
+    this.hasOne(models.Profile, { foreignKey: 'user_id', as: 'profile' });
+    // A.hasOne(B, { /* options */ });
   }
 }
 export default User; 

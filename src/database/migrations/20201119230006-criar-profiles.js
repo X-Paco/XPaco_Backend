@@ -10,8 +10,8 @@ module.exports = {
       type: Sequelize.INTEGER,
       references: { model: 'users', key: 'id' },
       allowNull: false,
-      onUpdate: 'CASCADE',
-      onDelete: 'CASCADE',
+      onUpdate: 'RESTRICT',
+      onDelete: 'RESTRICT',
     },
     ein_itin: {
       type: Sequelize.STRING(20),
