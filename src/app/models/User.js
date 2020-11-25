@@ -18,7 +18,11 @@ class User extends Model {
   static associate(models) {
     this.belongsTo(models.TypeUser, { foreignKey: 'type_id', as: 'type' });
     this.hasOne(models.Profile, { foreignKey: 'user_id', as: 'profile' });
+    this.hasMany(models.Production, { as: 'production' });
+    this.hasMany(models.Favorite, { as: 'favorite' });
+
     // A.hasOne(B, { /* options */ });
+
   }
 }
 export default User; 
