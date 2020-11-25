@@ -24,7 +24,9 @@ class Profile extends Model {
     return this;
   }
   static associate(models) {
-    this.belongsTo(models.User, { as: 'user' });
+    this.belongsTo(models.User, {
+      as: 'user',
+    });
     // A. (B, { /* options */ });
     // Para criar um relacionamento Um para Um ,
     // as associações hasOne e belongsTo são usadas juntas.

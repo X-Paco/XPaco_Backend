@@ -13,7 +13,9 @@ class TypeUser extends Model {
     return this;
   }
   static associate(models) {
-    this.hasMany(models.User, { as: 'type' });
+    this.hasMany(models.User, {
+      as: 'type',
+    });
     // TypeUser.hasMany(User) - associação significa que existe um relacionamento
     // Um-para-Muitos entre TypeUser e User, com a chave estrangeira sendo definida 
     // no modelo de destino ( User).

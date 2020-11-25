@@ -15,7 +15,10 @@ class Media extends Model {
     return this;
   }
   static associate(models) {
-    this.belongsTo(models.Production, { foreignKey: 'Production_id', as: 'production' });
+    this.belongsTo(models.Production, {
+      foreignKey: 'Production_id',
+      as: 'production',
+    });
     // Media.belongsTo(Production) - Pertence-à => associação significa que existe um relacionamento
     // Um para Um entre Media e Production, com a chave estrangeira sendo definida no
     // modelo de origem (Media).
