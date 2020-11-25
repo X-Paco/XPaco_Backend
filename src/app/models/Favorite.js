@@ -19,4 +19,4 @@ class Favorite extends Model {
     // A A.belongsToMany(B, { through: 'C' })associação significa que existe um relacionamento muitos-para-muitos entre Ae B, usando a tabela Ccomo tabela de junção , que terá as chaves estrangeiras ( aIde bId, por exemplo). Sequelize irá criar automaticamente este modelo C(a menos que já exista) e definir as chaves estrangeiras apropriadas nele.
   }
 }
-export default User; 
+export default Favorite; 

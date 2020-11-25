@@ -21,4 +21,4 @@ class Media extends Model {
     // modelo de origem (Media).
   }
 }
-export default Production;
+export default Media;

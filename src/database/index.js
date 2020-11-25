@@ -10,11 +10,10 @@ import TypeUser from '../app/models/TypeUser';
 import Production from '../app/models/Production';
 import Material from '../app/models/Material';
 import Favorite from '../app/models/Favorite';
-import Contain from '../app/models/Contain';
 import Media from '../app/models/Media';
 import Profile from '../app/models/Profile';
 
-const models = [TypeUser, User, Productions, Material, Favorite, Contain, Media, Profile,];
+const models = [TypeUser, User, Production, Material, Favorite, Media, Profile,];
 class Database {
   constructor() {
     this.init();

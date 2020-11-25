@@ -22,17 +22,17 @@ module.exports = {
         allowNull: false,
       },
       status: {
-        type: Sequelize.SRINTG,
+        type: Sequelize.STRING,
         allowNull: false,
       }
     })
-      .then(() => {
-        return queryInterface.addConstraint('favorites', ['user_id', 'production_id'], {
-          type: 'primary key',
-          name: 'favorite_pkey',
-          unique: true,
-        });
-      });
+    // .then(() => {
+    //   return queryInterface.addConstraint('favorites', ['user_id', 'production_id'], {
+    //     type: 'primary key',
+    //     name: 'favorite_pkey',
+    //     unique: true,
+    //   });
+    // });
   },
   down: function (queryInterface, Sequelize) {
     return queryInterface.dropTable('favorites');
