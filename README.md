@@ -32,11 +32,7 @@
 
 2. Criar arquivo .GITIGNORE
 
-    :left_speech_bubble: *.gitignore* - informa ao git para não commitar os caminhos, arquivos e outras informações que forem representados dentro do arquivo.
-
-    ~~~Javascript
-        node_modules/
-    ~~~
+    :left_speech_bubble: *.gitignore* - informa ao git para não commitar os caminhos, arquivos e outras informações que forem representados dentro do arquivo. (     node_modules/)
 
     ~~~cmder
     yarn add nodemon sucrase prettier eslint eslint-config-prettier eslint-plugin-prettier -D
@@ -56,12 +52,6 @@
     yarn sequelize migration:create --name=create-users
     yarn sequelize db:migrate
     ~~~
-
-    ~~~cmder
-      npx sequelize model:generate --name Usuarios --attributes nome:string,email:string
-    ~~~
-
-
 
     Models:  Material e Production
 
