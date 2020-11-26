@@ -3,6 +3,7 @@ class User extends Model {
   static init(sequelize) {
     super.init(
       {
+        name: Sequelize.STRING,
         nickname: Sequelize.STRING,
         email: Sequelize.STRING,
         password_hash: Sequelize.STRING,
@@ -17,6 +18,7 @@ class User extends Model {
   }
   static associate(models) {
     this.belongsTo(models.TypeUser, {
+      through: 'type_users',
       foreignKey: 'type_id',
       as: 'type',
     });
@@ -28,6 +30,7 @@ class User extends Model {
       as: 'production',
     });
     this.hasMany(models.Favorite, {
+      foreignKey: 'user_id',
       as: 'favorite',
     });
 

@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
   up: async (queryInterface, Sequelize) => queryInterface.createTable('medias', {
     id: {
@@ -13,8 +15,8 @@ module.exports = {
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE',
     },
-    liking: {
-      type: Sequelize.INTEGER,
+    description: {
+      type: Sequelize.STRING,
       allowNull: true,
     },
     checking: {
