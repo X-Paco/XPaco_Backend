@@ -18,7 +18,6 @@ class User extends Model {
   }
   static associate(models) {
     this.belongsTo(models.TypeUser, {
-      through: 'type_users',
       foreignKey: 'type_id',
       as: 'type',
     });
@@ -26,12 +25,10 @@ class User extends Model {
       foreignKey: 'user_id',
       as: 'profile',
     });
-    this.hasMany(models.Production, {
+    this.belongsToMany(models.Production, {
+      through: 'Favorite',
+      foreignKey: 'production_id',
       as: 'production',
-    });
-    this.hasMany(models.Favorite, {
-      foreignKey: 'user_id',
-      as: 'favorite',
     });
 
     // A.hasOne(B, { /* options */ });

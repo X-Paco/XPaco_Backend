@@ -15,18 +15,19 @@ class Production extends Model {
     return this;
   }
   static associate(models) {
-    this.belongsTo(models.User, {
-      as: 'user',
-      foreignKey: 'user_id',
-    });
     this.hasMany(models.Media, {
       as: 'media'
     });
     this.hasMany(models.Favorite, {
       as: 'favorite'
     });
+    this.belongsToMany(models.User, {
+      through: 'Favorite',
+      foreignKey: 'user_id',
+      as: 'user',
+    });
     this.belongsToMany(models.Material, {
-      through: 'productions_materials',
+      through: 'Production_material',
       as: 'material',
       foreignKey: 'material_id',
     });
