@@ -41,7 +41,7 @@
 
     yarn eslint --fix src --ext .js
 
-    yarn add express mongoose multer body-parser
+    yarn add express multer body-parser
 
     yarn add sequelize
     yarn add sequelize-cli -D
