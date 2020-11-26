@@ -63,17 +63,17 @@
 
 
 
-Models:  Material e Production
+    Models:  Material e Production
 
-~~~cmder
-  static associate(models) {
-    this.belongsToMany(models.Production, {
-      through: 'Production_material',
-      as: 'production',
-      foreignKey: 'production_id',
-    });
-  }
-~~~
+    ~~~cmder
+      static associate(models) {
+        this.belongsToMany(models.Production, {
+          through: 'Production_material',
+          as: 'production',
+          foreignKey: 'production_id',
+        });
+      }
+    ~~~
 
     :exclamation:  **Material.belongsToMany(Media, { through: 'Production_material' })** - associação significa que existe um relacionamento muitos-para-muitos entre Material e Production, usando a tabela Production_material como tabela de junção que terá as chaves estrangeiras (materia_Id e production_Id).
     Sequelize irá criar automaticamente este modelo Production_material(a menos que já exista) e definir as chaves estrangeiras apropriadas nele.
