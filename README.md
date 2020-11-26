@@ -19,13 +19,13 @@
 
 2. Iniciar projeto **NODE**
 
-    :left_speech_bubble: _No shell, utilizar o **NPM** (O Gerenciador de pacotes do node) com o comando acima, ele se encarrega de inicializar um projeto novo em node. o **-y**  faz ele ignorar uma série de perguntas para começar o projeto. Será tudo automático!_
+    :left_speech_bubble: _No shell, utilizar o **YARN** (O Gerenciador de pacotes do node) com o comando acima, ele se encarrega de inicializar um projeto novo em node. o **-y**  faz ele ignorar uma série de perguntas para começar o projeto. Será tudo automático!_
 
     ~~~cmder
-    npm init -y
+    yarn init -y
     ~~~
 
-    > :vertical_traffic_light: Como saída teremos o arquvo package.json com as configurações básicas criadas.
+    > :vertical_traffic_light: Como saída teremos o arquvo package.json e yarn.lock com as configurações básicas criadas.
     >Todo pacote instalado no node será registrado no arquivo package.json.
 
     ---
@@ -75,7 +75,7 @@ Models:  Material e Production
   }
 ~~~
 
-    :exclamation:  Material.belongsToMany(Media, { through: 'Production_material' }) - associação significa que existe um relacionamento muitos-para-muitos entre Material e Production, usando a tabela Production_material como tabela de junção que terá as chaves estrangeiras (materia_Id e production_Id).
+    :exclamation:  **Material.belongsToMany(Media, { through: 'Production_material' })** - associação significa que existe um relacionamento muitos-para-muitos entre Material e Production, usando a tabela Production_material como tabela de junção que terá as chaves estrangeiras (materia_Id e production_Id).
     Sequelize irá criar automaticamente este modelo Production_material(a menos que já exista) e definir as chaves estrangeiras apropriadas nele.
     
     :point_down: Cria um relacionamento muitos para muitos , duas chamadas belongsToMany serão usadas se referindo a (dois models)
