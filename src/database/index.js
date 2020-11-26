@@ -5,7 +5,6 @@ import TypeUser from '../app/models/TypeUser';
 import User from '../app/models/User';
 import Production from '../app/models/Production';
 import Material from '../app/models/Material';
-// import Favorite from '../app/models/Favorite';
 import Media from '../app/models/Media';
 import Profile from '../app/models/Profile';
 
