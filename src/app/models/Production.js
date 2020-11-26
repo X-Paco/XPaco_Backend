@@ -16,7 +16,7 @@ class Production extends Model {
   }
   static associate(models) {
     this.hasMany(models.Media, {
-      as: 'media'
+      as: 'media',
     });
     this.belongsToMany(models.User, {
       through: 'Favorite',

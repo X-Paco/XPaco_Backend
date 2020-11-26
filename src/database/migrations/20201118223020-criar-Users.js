@@ -13,7 +13,7 @@ module.exports = {
     },
     type_id: {
       type: Sequelize.INTEGER,
-      references: { model: 'types_users', key: 'id' },
+      references: { model: 'type_users', key: 'id' },
       allowNull: false,
       onUpdate: 'CASCADE',
       onDelete: 'RESTRICT',
