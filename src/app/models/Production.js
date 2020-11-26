@@ -18,9 +18,6 @@ class Production extends Model {
     this.hasMany(models.Media, {
       as: 'media'
     });
-    this.hasMany(models.Favorite, {
-      as: 'favorite'
-    });
     this.belongsToMany(models.User, {
       through: 'Favorite',
       foreignKey: 'user_id',
