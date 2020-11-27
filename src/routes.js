@@ -9,12 +9,12 @@ import Profile from './app/models/Profile';
 
 const Routes = new Router();
 
-Routes.get('/tipousuario', async (req, res) => {
-  const TypeUser = await TypeUser.create({
-    description: 'Pessoa Física',
+Routes.get('/teste', async (req, res) => {
+  const typeuser = await TypeUser.create({
+    description: 'Produtor',
   });
 
-  return res.json(TypeUser);
+  return res.json(typeuser);
 });
 
 export default Routes;

@@ -31,8 +31,6 @@ class User extends Model {
       as: 'production',
     });
 
-    // A.hasOne(B, { /* options */ });
-
   }
 }
 export default User; 

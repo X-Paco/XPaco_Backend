@@ -1,11 +1,13 @@
 import express from 'express';
 import routes from './routes';
 
-// importando nossa database e models
-import './database/index';
+// Importando nossa database
+import './database';
+
 class App {
   constructor() {
     this.server = express();
+
     this.middlewares();
     this.routes();
   }
@@ -18,5 +20,6 @@ class App {
     this.server.use(routes);
   }
 }
+
 export default new App().server;
 
