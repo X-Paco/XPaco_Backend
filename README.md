@@ -71,6 +71,12 @@
     :point_down: Cria um relacionamento muitos para muitos , duas chamadas belongsToMany serão usadas se referindo a (dois models)
     > Essas três chamadas farão com que o Sequelize adicione automaticamente chaves estrangeiras aos modelos apropriados (a menos que já estejam presentes).
     
+    :left_speech_bubble: **User.hasOne(Perfil)**. Isso adicionará userId à tabela de perfis.
 
+    :exclamation: Cria uma associação entre este (a origem) e o destino fornecido. A chave estrangeira é adicionada ao destino.
+    
+    :left_speech_bubble: **Profile.belongsTo(User)**. Isso adicionará **userId** à tabela de **Profile**.
+
+    :exclamation: Cria uma associação entre este(à origem) e o destino fornecido. A chave estrangeira é adicionada à origem.
 
 [![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=aquilesrodrigues&layout=compact)](https://github.com/aquilesrodrigues/github-readme-stats)

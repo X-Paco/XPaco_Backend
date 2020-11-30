@@ -15,14 +15,20 @@ class UserController {
     if (userNicknameExiste) {
       return res.status(400).json({ error: 'Nickname já existente' });
     };
+    const userMobileExiste = await User.findOne({
+      where: { mobile: req.body.mobile }
+    });
+    if (userMobileExiste) {
+      return res.status(400).json({ error: 'Mobile já existente' });
+    }
 
-    const { type_id, name, nickname, email, password_hash, mobile, } = req.body;
+    const { id, type_id, name, nickname, email, password_hash, mobile, } = req.body;
     const users = await User.create({
       type_id: req.type_id,
       name, nickname, email, password_hash, mobile,
     });
 
-    return res.json({ type_id, name, nickname, email, password_hash, mobile, });
+    return res.json({ id, type_id, name, nickname, email, password_hash, mobile, });
   }
 }
 export default new UserController;

@@ -4,16 +4,16 @@ class Profile extends Model {
     super.init(
       {
         mobile: Sequelize.STRING,
-        ein_itin: Sequelize.STRING,
-        cod_country: Sequelize.STRING,
+        einItin: Sequelize.STRING,
+        codCountry: Sequelize.STRING,
         phone: Sequelize.STRING,
         num: Sequelize.STRING,
         address: Sequelize.STRING,
         district: Sequelize.STRING,
         city: Sequelize.STRING,
         state: Sequelize.STRING,
-        zip_code: Sequelize.STRING,
-        birth_date: Sequelize.DATE,
+        zipCode: Sequelize.STRING,
+        birthDate: Sequelize.DATE,
         photo: Sequelize.STRING,
       },
       {

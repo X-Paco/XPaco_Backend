@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import UserController from './app/controllers/UserController';
 import TypeUserController from './app/controllers/TypeUserController';
-import TypeUser from './app/models/TypeUser';
+//import TypeUser from './app/models/TypeUser';
 
 const routes = new Router();
 
