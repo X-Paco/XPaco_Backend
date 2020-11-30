@@ -17,7 +17,11 @@ class Database {
 
   init() {
     this.connection = new Sequelize(databaseConfig);
-
+    /*  models.init (chama conexão banco)
+        .map percorrer o mapa de model verifica se tem:
+        model.associate(verifica se tem model associado) 
+        && model.associate(c hama a conexão através do array models)
+    */
     models
       .map(model => model.init(this.connection))
       .map(model => model.associate && model.associate(this.connection.models));

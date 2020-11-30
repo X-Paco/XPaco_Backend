@@ -2,7 +2,7 @@ import express from 'express';
 import routes from './routes';
 
 // Importando nossa database
-import './database';
+import './database/index';
 
 class App {
   constructor() {

@@ -3,6 +3,7 @@ class User extends Model {
   static init(sequelize) {
     super.init(
       {
+        // type_id: Sequelize.INTEGER,
         name: Sequelize.STRING,
         nickname: Sequelize.STRING,
         email: Sequelize.STRING,
@@ -16,6 +17,7 @@ class User extends Model {
 
     return this;
   }
+  // carregar as asssociações:
   static associate(models) {
     this.belongsTo(models.TypeUser, {
       foreignKey: 'type_id',
