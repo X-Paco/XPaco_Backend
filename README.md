@@ -82,10 +82,18 @@
     :left_speech_bubble: **User.hasMany(Project)**. Isso cria uma associação 1:m entre o User e o Project
     
     :exclamation: Cria uma associação que seja 1:m ou n:m.
+
+    :vertical_traffic_light: Quando inserido nos dois lados origem e destino vai gerar uma nova tabela de junção.
     **User.hasMany (Project)**
     **Project.hasMany (User)**
+   
+    Por padrão, o nome da tabela de junção será automaticamente criado seguindo a estrutura _**origem+destino**_, portanto, neste caso, (**projectsusers**).
     
-    Por padrão, o nome da tabela de junção será _**origem+destino**_, portanto, neste caso, (**projectsusers**). Isso pode ser sobrescrito fornecendo uma string ou um Model como nas opções. 
+    :exclamation: Isso pode ser sobrescrito fornecendo uma string ou um Model como nas opções:
+    ~~~ javascript
+    User.hasMany(Project, { through: UserProjects })
+    Project.hasMany(User, { through: UserProjects })
+    ~~~
 
 
 [![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=aquilesrodrigues&layout=compact)](https://github.com/aquilesrodrigues/github-readme-stats)
