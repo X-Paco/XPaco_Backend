@@ -84,8 +84,8 @@
     :exclamation: Cria uma associação que seja 1:m ou n:m.
 
     :vertical_traffic_light: Quando inserido nos dois lados origem e destino vai gerar uma nova tabela de junção.
-    **User.hasMany (Project)**
-    **Project.hasMany (User)**
+    **User.hasMany(Project)**
+    **Project.hasMany(User)**
    
     Por padrão, o nome da tabela de junção será automaticamente criado seguindo a estrutura _**origem+destino**_, portanto, neste caso, (**projectsusers**).
     
