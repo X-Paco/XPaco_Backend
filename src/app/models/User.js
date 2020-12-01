@@ -20,7 +20,7 @@ class User extends Model {
   // carregar as asssociações:
   static associate(models) {
     this.belongsTo(models.TypeUser, {
-      foreignKey: 'typeId',
+      foreignKey: 'typeuserId',
       as: 'type',
     });
     this.hasOne(models.Profile, {

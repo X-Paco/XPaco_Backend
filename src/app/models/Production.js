@@ -20,13 +20,13 @@ class Production extends Model {
     });
     this.belongsToMany(models.User, {
       through: 'Favorite',
-      foreignKey: 'user_id',
+      foreignKey: 'userId',
       as: 'user',
     });
     this.belongsToMany(models.Material, {
-      through: 'Production_material',
+      through: 'productionMaterials',
       as: 'material',
-      foreignKey: 'material_id',
+      foreignKey: 'materialId',
     });
 
     // Production.hasMany(Media) - associação significa que existe um relacionamento

@@ -14,9 +14,9 @@ class Material extends Model {
   }
   static associate(models) {
     this.belongsToMany(models.Production, {
-      through: 'Production_material',
+      through: 'productionMaterials',
       as: 'production',
-      foreignKey: 'production_id',
+      foreignKey: 'productionId',
     });
     /* Material.belongsToMany(Media, { through: 'Production_material' }) - associação significa que existe 
       um relacionamento muitos-para-muitos entre Material e Production, usando a tabela Production_material 

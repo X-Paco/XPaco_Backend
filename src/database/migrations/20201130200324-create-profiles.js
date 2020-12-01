@@ -8,13 +8,13 @@ module.exports = {
       autoIncrement: true,
       primaryKey: true,
     },
-    userId: {
-      type: Sequelize.INTEGER,
-      references: { model: 'users', key: 'id' },
-      allowNull: false,
-      onUpdate: 'RESTRICT',
-      onDelete: 'RESTRICT',
-    },
+    // userId: {
+    //   type: Sequelize.INTEGER,
+    //   references: { model: 'users', key: 'id' },
+    //   allowNull: false,
+    //   onUpdate: 'RESTRICT',
+    //   onDelete: 'RESTRICT',
+    // },
     einItin: {
       type: Sequelize.STRING(20),
       allowNull: true,

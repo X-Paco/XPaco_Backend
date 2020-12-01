@@ -79,4 +79,13 @@
 
     :exclamation: Cria uma associação entre este(à origem) e o destino fornecido. A chave estrangeira é adicionada à origem.
 
+    :left_speech_bubble: **User.hasMany(Project)**. Isso cria uma associação 1:m entre o User e o Project
+    
+    :exclamation: Cria uma associação que seja 1:m ou n:m.
+    **User.hasMany (Project)**
+    **Project.hasMany (User)**
+    
+    Por padrão, o nome da tabela de junção será _**origem+destino**_, portanto, neste caso, (**projectsusers**). Isso pode ser sobrescrito fornecendo uma string ou um Model como nas opções. 
+
+
 [![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=aquilesrodrigues&layout=compact)](https://github.com/aquilesrodrigues/github-readme-stats)
