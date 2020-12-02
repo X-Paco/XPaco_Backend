@@ -18,6 +18,7 @@ class Profile extends Model {
       },
       {
         sequelize,
+        tableName: 'profiles',
       }
     );
 
@@ -25,8 +26,11 @@ class Profile extends Model {
   }
   static associate(models) {
     this.belongsTo(models.User, {
+      targetKey: 'id',
       foreignKey: 'userId',
       as: 'user',
+      onDelete: 'NO ACTION',
+      onUpdate: 'CASCADE',
     });
     // A. (B, { /* options */ });
     // Para criar um relacionamento Um para Um ,

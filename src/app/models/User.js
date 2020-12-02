@@ -1,3 +1,4 @@
+// import sequelize from 'sequelize';
 import Sequelize, { Model } from 'sequelize';
 class User extends Model {
   static init(sequelize) {
@@ -12,6 +13,7 @@ class User extends Model {
       },
       {
         sequelize,
+        tableName: 'users',
       }
     );
 
@@ -20,17 +22,29 @@ class User extends Model {
   // carregar as asssociações:
   static associate(models) {
     this.belongsTo(models.TypeUser, {
+      targetKey: 'id',
       foreignKey: 'typeuserId',
-      as: 'type',
+      as: 'typeuser',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
     });
     this.hasOne(models.Profile, {
       foreignKey: 'userId',
-      as: 'profile',
+      as: 'user',
+
+    });
+    this.hasMany(models.Production, {
+      foreignKey: 'userId',
+      as: 'hasProduction',
+      onDelete: 'CASCADE',
+      hooks: true,
     });
     this.belongsToMany(models.Production, {
-      through: 'Favorite',
+      through: 'favorites',
       foreignKey: 'productionId',
       as: 'production',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE'
     });
 
   }

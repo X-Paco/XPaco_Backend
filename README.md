@@ -82,6 +82,17 @@
     :left_speech_bubble: **User.hasMany(Project)**. Isso cria uma associação 1:m entre o User e o Project
     
     :exclamation: Cria uma associação que seja 1:m ou n:m.
+    ~~~ Javascript
+    Country.hasMany(City, {
+      foreignKey: 'countryCode', 
+      sourceKey: 'isoCode'
+    });
+
+    City.belongsTo(Country, {
+      foreignKey: 'countryCode', 
+      targetKey: 'isoCode'
+    });
+    ~~~
 
     :vertical_traffic_light: Quando inserido nos dois lados origem e destino vai gerar uma nova tabela de junção.
     **User.hasMany(Project)**

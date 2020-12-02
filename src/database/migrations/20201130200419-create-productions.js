@@ -10,7 +10,7 @@ module.exports = {
     },
     // userId: {
     //   type: Sequelize.INTEGER,
-    //   references: { model: 'users', key: 'id' },
+    //   references: { model: 'favorites', key: 'userId' },
     //   allowNull: false,
     //   onUpdate: 'CASCADE',
     //   onDelete: 'RESTRICT',

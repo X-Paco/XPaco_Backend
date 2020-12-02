@@ -13,9 +13,8 @@ module.exports = {
     timestamps: true,
     // não adiciona camelcase para atributos gerados automaticamente
     // então se definirmos updatedAt ele será criado como updated_at
-    underscored: true,
+    underscored: false,
     // não permite deletar do banco, e inseri na coluna deletedAt a data da exclusão se o timestamps estiver ativado
-    underscoredAll: true,
     /* para evitar que o sequelize defina suas tabelas com o nome em plural automaticamente como permanencia ative a opção como true */
     //  freezeTableName: true,
   },

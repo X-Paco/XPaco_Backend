@@ -8,13 +8,15 @@ class TypeUser extends Model {
       },
       {
         sequelize,
+        tableName: 'typeusers',
       }
     );
     return this;
   }
   static associate(models) {
-    this.hasMany(models.User, {
-      as: 'user',
+    this.hasOne(models.User, {
+      foreignKey: 'typeuserId',
+      as: 'typeuser',
     });
     // TypeUser.hasMany(User) - associação significa que existe um relacionamento
     // Um-para-Muitos entre TypeUser e User, com a chave estrangeira sendo definida 
