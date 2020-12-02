@@ -41,7 +41,7 @@ module.exports = {
     },
     mobile: {
       type: Sequelize.STRING(12),
-      allowNull: true,
+      allowNull: false,
     },
     createdAt: {
       type: Sequelize.DATE,

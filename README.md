@@ -80,7 +80,7 @@
       static init(sequelize) {
         super.init(
           {
-            // type_id: Sequelize.INTEGER,
+            // memberId: Sequelize.INTEGER,
             id: Sequelize.INTEGER,
           },
           {

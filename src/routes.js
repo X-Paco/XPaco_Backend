@@ -1,12 +1,12 @@
 import { Router } from 'express';
 
 import UserController from './app/controllers/UserController';
-import TypeUserController from './app/controllers/TypeUserController';
+import MemberController from './app/controllers/MemberController';
 //import Member from './app/models/Member';
 
 const routes = new Router();
 
-routes.post('/members', TypeUserController.store);
+routes.post('/members', MemberController.store);
 
 //routes.post('/sessions', SessionController.store);
 

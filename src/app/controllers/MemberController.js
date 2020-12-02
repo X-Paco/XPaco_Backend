@@ -1,6 +1,6 @@
 import Member from '../models/Member';
 
-class TypeUserController {
+class MemberController {
   async store(req, res) {
     // TODO: validar antes de construir
     const memberExiste = await Member.findOne({
@@ -19,4 +19,4 @@ class TypeUserController {
     });
   }
 }
-export default new TypeUserController(); 
+export default new MemberController(); 
