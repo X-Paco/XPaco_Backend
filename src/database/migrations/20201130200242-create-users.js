@@ -11,16 +11,16 @@ module.exports = {
       /* chave primaria não pode ter dois ou mais registros de mesmo valor e também não pode ter valor nulo */
       primaryKey: true,
     },
-    // typeuserId: {
-    //   type: Sequelize.INTEGER,
-    //   references: {
-    //     model: 'typeUser',
-    //     key: 'id'
-    //   },
-    //   allowNull: false,
-    //   onUpdate: 'CASCADE',
-    //   onDelete: 'RESTRICT',
-    // },
+    memberId: {
+      type: Sequelize.INTEGER,
+      references: {
+        model: 'members',
+        key: 'id'
+      },
+      allowNull: false,
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    },
     name: {
       type: Sequelize.STRING(50),
       allowNull: false,

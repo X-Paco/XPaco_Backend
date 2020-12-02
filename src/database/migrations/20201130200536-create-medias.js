@@ -8,13 +8,13 @@ module.exports = {
       autoIncrement: true,
       primaryKey: true,
     },
-    // publicationId: {
-    //   type: Sequelize.INTEGER,
-    //   references: { model: 'publications', key: 'id' },
-    //   allowNull: false,
-    //   onUpdate: 'CASCADE',
-    //   onDelete: 'CASCADE',
-    // },
+    publicationId: {
+      type: Sequelize.INTEGER,
+      references: { model: 'publications', key: 'id' },
+      allowNull: false,
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    },
     description: {
       type: Sequelize.STRING,
       allowNull: true,

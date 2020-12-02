@@ -8,13 +8,13 @@ module.exports = {
       autoIncrement: true,
       primaryKey: true,
     },
-    // userId: {
-    //   type: Sequelize.INTEGER,
-    //   references: { model: 'favorites', key: 'userId' },
-    //   allowNull: false,
-    //   onUpdate: 'CASCADE',
-    //   onDelete: 'RESTRICT',
-    // },
+    userId: {
+      type: Sequelize.INTEGER,
+      references: { model: 'users', key: 'id' },
+      allowNull: false,
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    },
     tag: {
       type: Sequelize.STRING,
       allowNull: true,

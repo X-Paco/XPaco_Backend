@@ -20,10 +20,10 @@ class User extends Model {
   }
   // carregar as asssociações:
   static associate(models) {
-    this.belongsTo(models.TypeUser, {
+    this.belongsTo(models.Member, {
       targetKey: 'id',
-      foreignKey: 'typeuserId',
-      as: 'typeuser',
+      foreignKey: 'memberId',
+      as: 'member',
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
       hooks: true,

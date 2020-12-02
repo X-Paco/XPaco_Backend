@@ -2,11 +2,11 @@ import { Router } from 'express';
 
 import UserController from './app/controllers/UserController';
 import TypeUserController from './app/controllers/TypeUserController';
-//import TypeUser from './app/models/TypeUser';
+//import Member from './app/models/Member';
 
 const routes = new Router();
 
-routes.post('/typeusers', TypeUserController.store);
+routes.post('/members', TypeUserController.store);
 
 //routes.post('/sessions', SessionController.store);
 
@@ -14,7 +14,7 @@ routes.post('/typeusers', TypeUserController.store);
    ================================================================== */
 //routes.use(authMiddleware);
 
-//routes.put('/typeusers', TypeUserController.update);
+//routes.put('/members', TypeUserController.update);
 
 routes.post('/users', UserController.store);
 

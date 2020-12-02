@@ -1,6 +1,6 @@
 import Sequelize, { Model } from 'sequelize';
 
-class TypeUser extends Model {
+class Member extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -8,7 +8,7 @@ class TypeUser extends Model {
       },
       {
         sequelize,
-        tableName: 'typeusers',
+        tableName: 'members',
       }
     );
     return this;
@@ -16,12 +16,12 @@ class TypeUser extends Model {
   static associate(models) {
     this.hasOne(models.User, {
       sourceKey: 'id',
-      foreignKey: 'typeuserId',
+      foreignKey: 'memberId',
     });
-    // TypeUser.hasMany(User) - associação significa que existe um relacionamento
-    // Um-para-Muitos entre TypeUser e User, com a chave estrangeira sendo definida 
+    // Member.hasMany(User) - associação significa que existe um relacionamento
+    // Um-para-Muitos entre Member e User, com a chave estrangeira sendo definida 
     // no modelo de destino ( User).
     // e depois faço um apelido para type
   }
 }
-export default TypeUser;
+export default Member;
