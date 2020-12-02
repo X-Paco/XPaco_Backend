@@ -59,15 +59,15 @@
     
       static associate(models) {
         this.belongsToMany(models.Publication, {
-          through: 'Production_material',
-          as: 'production',
-          foreignKey: 'production_id',
+          through: 'Publication_material',
+          as: 'publication',
+          foreignKey: 'publication_id',
         });
       }
     ~~~
 
-    :exclamation:  **Material.belongsToMany(Media, { through: 'Production_material' })** - associação significa que existe um relacionamento muitos-para-muitos entre **_Material e Production_**, usando a tabela **Production_material** como tabela de junção que terá as chaves estrangeiras (*materia_Id e publication_Id*).
-    Sequelize irá criar automaticamente este modelo **Production_material**(a menos que já exista) e definir as chaves estrangeiras apropriadas nele.
+    :exclamation:  **Material.belongsToMany(Media, { through: 'Publication_material' })** - associação significa que existe um relacionamento muitos-para-muitos entre **_Material e Publication_**, usando a tabela **Publication_material** como tabela de junção que terá as chaves estrangeiras (*materia_Id e publication_Id*).
+    Sequelize irá criar automaticamente este modelo **Publication_material**(a menos que já exista) e definir as chaves estrangeiras apropriadas nele.
     
     :point_down: Cria um relacionamento muitos para muitos , duas chamadas belongsToMany serão usadas se referindo a (dois models)
     > Essas três chamadas farão com que o Sequelize adicione automaticamente chaves estrangeiras aos modelos apropriados (a menos que já estejam presentes).
