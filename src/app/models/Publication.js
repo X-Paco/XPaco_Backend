@@ -1,5 +1,5 @@
 import Sequelize, { Model } from 'sequelize';
-class Production extends Model {
+class Publication extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -10,7 +10,7 @@ class Production extends Model {
       },
       {
         sequelize,
-        tableName: 'productions',
+        tableName: 'publications',
       }
     );
     return this;
@@ -18,7 +18,7 @@ class Production extends Model {
   static associate(models) {
     this.hasMany(models.Media, {
       sourceKey: 'id',
-      foreignKey: 'productionId',
+      foreignKey: 'publicationId',
       as: 'media',
     });
     this.belongsTo(models.User, {
@@ -30,20 +30,20 @@ class Production extends Model {
     });
     this.belongsToMany(models.User, {
       through: 'favorites',
-      foreignKey: 'userId',
-      as: 'favorite',
+      foreignKey: 'publicationId',
+      as: 'publicationFavorite',
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     });
     this.belongsToMany(models.Material, {
-      through: 'productionMaterials',
-      foreignKey: 'materialId',
-      as: 'material',
+      through: 'publicationMaterials',
+      foreignKey: 'publicationId',
+      as: 'publication',
     });
 
-    // Production.hasMany(Media) - associação significa que existe um relacionamento
-    // Um-para-Muitos entre Production e Media, com a chave estrangeira sendo definida no modelo de destino ( Media).
+    // Publication.hasMany(Media) - associação significa que existe um relacionamento
+    // Um-para-Muitos entre Publication e Media, com a chave estrangeira sendo definida no modelo de destino ( Media).
     // e depois faço um apelido para type.
   }
 }
-export default Production;
+export default Publication;

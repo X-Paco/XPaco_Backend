@@ -3,12 +3,12 @@ import databaseConfig from '../config/database';
 
 import TypeUser from '../app/models/TypeUser';
 import User from '../app/models/User';
-import Production from '../app/models/Production';
+import Publication from '../app/models/Publication';
 import Material from '../app/models/Material';
 import Media from '../app/models/Media';
 import Profile from '../app/models/Profile';
 
-const models = [TypeUser, User, Production, Material, Media, Profile];
+const models = [TypeUser, User, Publication, Material, Media, Profile];
 
 class Database {
   constructor() {

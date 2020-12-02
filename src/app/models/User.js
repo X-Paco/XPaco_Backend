@@ -28,20 +28,20 @@ class User extends Model {
       onUpdate: 'CASCADE',
       hooks: true,
     });
+    // adicionará userId(chave-estrangeira) à tabela de Profile.
     this.hasOne(models.Profile, {
       sourceKey: 'id',
       foreignKey: 'userId',
-      as: 'user',
-
     });
-    this.hasMany(models.Production, {
-      foreignKey: 'userId',
+    this.hasMany(models.Publication, {
       sourceKey: 'id',
+      foreignKey: 'userId',
+      as: 'publication',
     });
-    this.belongsToMany(models.Production, {
+    this.belongsToMany(models.Publication, {
       through: 'favorites',
-      foreignKey: 'productionId',
-      as: 'favorite',
+      foreignKey: 'userId',
+      as: 'userFavorite',
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     });

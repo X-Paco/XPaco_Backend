@@ -53,12 +53,12 @@
     yarn sequelize db:migrate
     ~~~
 
-    Models:  Material e Production
+    Models:  Material e Publication
 
     ~~~cmder
     
       static associate(models) {
-        this.belongsToMany(models.Production, {
+        this.belongsToMany(models.Publication, {
           through: 'Production_material',
           as: 'production',
           foreignKey: 'production_id',
@@ -66,12 +66,75 @@
       }
     ~~~
 
-    :exclamation:  **Material.belongsToMany(Media, { through: 'Production_material' })** - associação significa que existe um relacionamento muitos-para-muitos entre **_Material e Production_**, usando a tabela **Production_material** como tabela de junção que terá as chaves estrangeiras (*materia_Id e production_Id*).
+    :exclamation:  **Material.belongsToMany(Media, { through: 'Production_material' })** - associação significa que existe um relacionamento muitos-para-muitos entre **_Material e Production_**, usando a tabela **Production_material** como tabela de junção que terá as chaves estrangeiras (*materia_Id e publication_Id*).
     Sequelize irá criar automaticamente este modelo **Production_material**(a menos que já exista) e definir as chaves estrangeiras apropriadas nele.
     
     :point_down: Cria um relacionamento muitos para muitos , duas chamadas belongsToMany serão usadas se referindo a (dois models)
     > Essas três chamadas farão com que o Sequelize adicione automaticamente chaves estrangeiras aos modelos apropriados (a menos que já estejam presentes).
     
+    ~~~ javascript
+    /* Criar o model User
+      ========================================
+    */
+    class User extends Model {
+      static init(sequelize) {
+        super.init(
+          {
+            // type_id: Sequelize.INTEGER,
+            id: Sequelize.INTEGER,
+          },
+          {
+            sequelize,
+            tableName: 'users',
+          }
+        );
+        return this;
+      }
+      // carregar as asssociações:
+      static associate(models) {
+        this.belongsToMany(models.Serie, {
+          through: 'favorites',
+          foreignKey: 'userId',
+          as: 'userFavorite',
+          onDelete: 'CASCADE',
+          onUpdate: 'CASCADE',
+        });
+
+      }
+    }
+    export default User; 
+
+    /* Criar o model User
+      ========================================
+    */
+
+    class Serie extends Model {
+      static init(sequelize) {
+        super.init(
+          {
+            id: Sequelize.INTEGER,
+          },
+          {
+            sequelize,
+            tableName: 'Series',
+          }
+        );
+        return this;
+      }
+      static associate(models) {
+        this.belongsToMany(models.User, {
+          through: 'favorites',
+          foreignKey: 'serieId',
+          as: 'serieFavorite',
+          onDelete: 'CASCADE',
+          onUpdate: 'CASCADE',
+        });
+      }
+    }
+    export default Serie;
+
+    ~~~
+
     :left_speech_bubble: **User.hasOne(Perfil)**. Isso adicionará userId à tabela de perfis.
 
     :exclamation: Cria uma associação entre este (a origem) e o destino fornecido. A chave estrangeira é adicionada ao destino.

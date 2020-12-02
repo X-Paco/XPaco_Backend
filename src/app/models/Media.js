@@ -10,17 +10,21 @@ class Media extends Model {
       },
       {
         sequelize,
+        tableName: 'medias',
       }
     );
     return this;
   }
   static associate(models) {
-    this.belongsTo(models.Production, {
-      foreignKey: 'productionId',
-      as: 'production',
+    this.belongsTo(models.Publication, {
+      targetKey: 'id',
+      foreignKey: 'PublicationId',
+      as: 'publication',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
     });
-    // Media.belongsTo(Production) - Pertence-à => associação significa que existe um relacionamento
-    // Um para Um entre Media e Production, com a chave estrangeira sendo definida no
+    // Media.belongsTo(Publication) - Pertence-à => associação significa que existe um relacionamento
+    // Um para Um entre Media e Publication, com a chave estrangeira sendo definida no
     // modelo de origem (Media).
   }
 }

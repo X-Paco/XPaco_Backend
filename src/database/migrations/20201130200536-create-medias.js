@@ -8,9 +8,9 @@ module.exports = {
       autoIncrement: true,
       primaryKey: true,
     },
-    // productionId: {
+    // publicationId: {
     //   type: Sequelize.INTEGER,
-    //   references: { model: 'productions', key: 'id' },
+    //   references: { model: 'publications', key: 'id' },
     //   allowNull: false,
     //   onUpdate: 'CASCADE',
     //   onDelete: 'CASCADE',
