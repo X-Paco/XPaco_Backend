@@ -56,6 +56,7 @@
     Models:  Material e Production
 
     ~~~cmder
+    
       static associate(models) {
         this.belongsToMany(models.Production, {
           through: 'Production_material',
@@ -83,15 +84,57 @@
     
     :exclamation: Cria uma associação que seja 1:m ou n:m.
     ~~~ Javascript
-    Country.hasMany(City, {
-      foreignKey: 'countryCode', 
-      sourceKey: 'isoCode'
-    });
+    /* Model City
+      ===============================
+    */
+    class City extends Model {
+      static init(sequelize) {
+        super.init(
+          { 
+            countryCode: Sequelize.STRING 
+          }, 
+          { 
+            sequelize, 
+            modelName: 'city' 
+          }
+        );
+      return this;
+      }
+      static associate(models) {
+        this.belongsTo(Country, {
+          foreignKey: 'countryCode', 
+          targetKey: 'isoCode'
+        });
+      }
+    }
+    export default City; 
 
-    City.belongsTo(Country, {
-      foreignKey: 'countryCode', 
-      targetKey: 'isoCode'
-    });
+    /* Model Country
+      ===============================
+    */
+    class Country extends Model {
+      static init(sequelize) {
+        super.init(
+          { 
+            isoCode: Sequelize.STRING 
+          }, 
+          { 
+            sequelize, 
+            modelName: 'country' 
+          }
+        );
+      return this;
+      }
+      static associate(models) {
+        this.hasMany(City, {
+          foreignKey: 'countryCode', 
+          sourceKey: 'isoCode'
+
+        });
+      }
+    }
+    export default City; 
+
     ~~~
 
     :vertical_traffic_light: Quando inserido nos dois lados origem e destino vai gerar uma nova tabela de junção.

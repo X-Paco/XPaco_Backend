@@ -18,8 +18,15 @@ class Production extends Model {
     this.hasMany(models.Media, {
       as: 'media',
     });
+    this.belongsTo(models.User, {
+      foreignKey: 'userId',
+      sourceKey: ,
+      as: 'pro',
+      onDelete: 'CASCADE',
+      hooks: true,
+    });
     this.belongsToMany(models.User, {
-      through: 'Favorite',
+      through: 'favorite',
       foreignKey: 'userId',
       as: 'user',
     });

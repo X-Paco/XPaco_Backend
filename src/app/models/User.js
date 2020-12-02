@@ -16,7 +16,6 @@ class User extends Model {
         tableName: 'users',
       }
     );
-
     return this;
   }
   // carregar as asssociações:
@@ -35,14 +34,15 @@ class User extends Model {
     });
     this.hasMany(models.Production, {
       foreignKey: 'userId',
-      as: 'hasProduction',
+      sourceKey: ,
+      as: 'production',
       onDelete: 'CASCADE',
       hooks: true,
     });
     this.belongsToMany(models.Production, {
       through: 'favorites',
       foreignKey: 'productionId',
-      as: 'production',
+      as: 'favorite',
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE'
     });
