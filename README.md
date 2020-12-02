@@ -84,56 +84,56 @@
     
     :exclamation: Cria uma associação que seja 1:m ou n:m.
     ~~~ Javascript
-    /* Model City
+    /* Model Cidade
       ===============================
     */
-    class City extends Model {
+    class Cidade extends Model {
       static init(sequelize) {
         super.init(
           { 
-            countryCode: Sequelize.STRING 
+            estadoCode: Sequelize.STRING, 
           }, 
           { 
             sequelize, 
-            modelName: 'city' 
+            modelName: 'cidade', 
           }
         );
       return this;
       }
       static associate(models) {
-        this.belongsTo(Country, {
-          foreignKey: 'countryCode', 
-          targetKey: 'isoCode'
+        this.belongsTo(Estado, {
+          foreignKey: 'estadoCode', 
+          targetKey: 'codigoIso'
         });
       }
     }
-    export default City; 
+    export default Cidade; 
 
-    /* Model Country
+    /* Model Estado
       ===============================
     */
-    class Country extends Model {
+    class Estado extends Model {
       static init(sequelize) {
         super.init(
           { 
-            isoCode: Sequelize.STRING 
+            codigoIso: Sequelize.STRING, 
           }, 
           { 
             sequelize, 
-            modelName: 'country' 
+            modelName: 'estado', 
           }
         );
       return this;
       }
       static associate(models) {
-        this.hasMany(City, {
-          foreignKey: 'countryCode', 
-          sourceKey: 'isoCode'
+        this.hasMany(Cidade, {
+          foreignKey: 'estadoCode', 
+          sourceKey: 'codigoIso'
 
         });
       }
     }
-    export default City; 
+    export default Cidade; 
 
     ~~~
 

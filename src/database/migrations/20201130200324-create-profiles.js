@@ -19,7 +19,7 @@ module.exports = {
       type: Sequelize.STRING(20),
       allowNull: true,
     },
-    codCountry: {
+    codEstado: {
       type: Sequelize.STRING(3),
       allowNull: true,
     },
@@ -39,7 +39,7 @@ module.exports = {
       type: Sequelize.STRING(50),
       allowNull: true,
     },
-    city: {
+    cidade: {
       type: Sequelize.STRING(50),
       allowNull: true,
     },

@@ -26,25 +26,24 @@ class User extends Model {
       as: 'typeuser',
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
+      hooks: true,
     });
     this.hasOne(models.Profile, {
+      sourceKey: 'id',
       foreignKey: 'userId',
       as: 'user',
 
     });
     this.hasMany(models.Production, {
       foreignKey: 'userId',
-      sourceKey: ,
-      as: 'production',
-      onDelete: 'CASCADE',
-      hooks: true,
+      sourceKey: 'id',
     });
     this.belongsToMany(models.Production, {
       through: 'favorites',
       foreignKey: 'productionId',
       as: 'favorite',
       onDelete: 'CASCADE',
-      onUpdate: 'CASCADE'
+      onUpdate: 'CASCADE',
     });
 
   }

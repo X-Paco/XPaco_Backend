@@ -10,30 +10,35 @@ class Production extends Model {
       },
       {
         sequelize,
+        tableName: 'productions',
       }
     );
     return this;
   }
   static associate(models) {
     this.hasMany(models.Media, {
+      sourceKey: 'id',
+      foreignKey: 'productionId',
       as: 'media',
     });
     this.belongsTo(models.User, {
-      foreignKey: 'userId',
-      sourceKey: ,
-      as: 'pro',
-      onDelete: 'CASCADE',
-      hooks: true,
-    });
-    this.belongsToMany(models.User, {
-      through: 'favorite',
+      targetKey: 'id',
       foreignKey: 'userId',
       as: 'user',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
+    });
+    this.belongsToMany(models.User, {
+      through: 'favorites',
+      foreignKey: 'userId',
+      as: 'favorite',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
     });
     this.belongsToMany(models.Material, {
       through: 'productionMaterials',
-      as: 'material',
       foreignKey: 'materialId',
+      as: 'material',
     });
 
     // Production.hasMany(Media) - associação significa que existe um relacionamento
