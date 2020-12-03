@@ -27,7 +27,16 @@ class UserController {
       memberId: req.body.memberId, name, nickname, email, password, passwordHash, mobile,
     });
 
-    return res.json(user);
+    return res.json({ user });
+  }
+  //TODO No auth inserimos uma variável userId com o código do 
+  // usuário capturado na sessão.
+
+  async update(req, res) {
+    console.log(req.userId);
+
+    const resulta = req.userId;
+    return res.json({ resulta });
   }
 }
 export default new UserController;

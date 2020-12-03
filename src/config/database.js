@@ -1,12 +1,14 @@
 /*
 Neste arquivo temos uma particularidade, ele não está usando o import/export , infelizmente o sequelize-cli  roda usando o commonJS então esse arquivo de configuração necessita estar em  commonJS
  */
+import authKey from './authkey';
+
 module.exports = {
   dialect: 'postgres',
   host: 'localhost',
   port: 5433,
   username: 'dbadmin',
-  password: 'Equipe25',
+  password: authKey.password,
   database: 'xpacodb',
   define: {
     // não adicionar os atributos (updatedAt, createdAt)

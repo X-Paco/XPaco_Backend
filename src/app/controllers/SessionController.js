@@ -1,9 +1,9 @@
-/* obs.: A importação de módulos vem sempre acima das 
-importações de arquivos de um projeto
-exemplo:
+/* obs.: A importação de módulos vem sempre acima das importações de arquivos de um projeto
+exemplo: import jwt from 'jsonwebtoken'; */
+
 import jwt from 'jsonwebtoken';
-*/
-import jwt from 'jsonwebtoken';
+
+import authKey from '../../config/authkey';
 import User from '../models/User';
 
 class SessionController {
@@ -15,13 +15,12 @@ class SessionController {
     if (!user) {
       return res.status(401).json({ error: 'Usuário não existe.' });
     }
-
+    //TODO Verificar se a senha não bate
     if (!(await user.checkPassword(password))) {
       return res.status(401).json({ error: 'Senha Incorreta.' });
     }
 
     const { id, name } = user;
-
 
     return res.json({
       user: {
@@ -29,11 +28,15 @@ class SessionController {
         name,
         email,
       },
-      /* o atributo token será comporto por:
+      /* o atributo token será composto por:
           (id) +  (frase pessoal) + (algumas configurações)
-          para não inserir um texto na (frase pessoal) podemos utilizar um gerador
-          de hash MD5 no site md5online.org  */
-      token: jwt.sign({ id }, '06a1da246b20a9e182aa88787fd762f5', { expiresIn: '7d' },),
+          para nã ficar exposto vou criar um arquivo com 2 atributos
+          secret: (frase pessoal)
+          expiresIn: (tempo para expiração)
+          na pasta config que já possui configuração para banco e senha.
+      */
+      //TODO Criação de token
+      token: jwt.sign({ id }, authKey.secret, { expiresIn: authKey.expiresIn, }),
     });
   }
 }
