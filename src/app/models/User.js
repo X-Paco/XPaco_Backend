@@ -1,5 +1,6 @@
 // import sequelize from 'sequelize';
 import Sequelize, { Model } from 'sequelize';
+import bcrypt from 'bcryptjs';
 class User extends Model {
   static init(sequelize) {
     super.init(
@@ -8,6 +9,7 @@ class User extends Model {
         name: Sequelize.STRING,
         nickname: Sequelize.STRING,
         email: Sequelize.STRING,
+        password: Sequelize.VIRTUAL,
         passwordHash: Sequelize.STRING,
         mobile: Sequelize.STRING,
       },
@@ -16,8 +18,16 @@ class User extends Model {
         tableName: 'users',
       }
     );
+    /* 8 é força da criptgrafia   */
+    this.addHook('beforeSave', async user => {
+      if (user.password) {
+        user.passwordHash = await bcrypt.hash(user.password, 8);
+      }
+    });
+    /* chamar o init acima */
     return this;
   }
+
   // carregar as asssociações:
   static associate(models) {
     this.belongsTo(models.Member, {

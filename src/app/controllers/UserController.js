@@ -22,12 +22,12 @@ class UserController {
       return res.status(400).json({ error: 'Mobile já existente' });
     }
 
-    const { id, memberId, name, nickname, email, passwordHash, mobile, } = req.body;
-    const users = await User.create({
-      memberId: req.body.memberId, name, nickname, email, passwordHash, mobile,
+    const { id, memberId, name, nickname, email, password, passwordHash, mobile, } = req.body;
+    const user = await User.create({
+      memberId: req.body.memberId, name, nickname, email, password, passwordHash, mobile,
     });
 
-    return res.json({ id, memberId, name, nickname, email, passwordHash, mobile, });
+    return res.json(user);
   }
 }
 export default new UserController;

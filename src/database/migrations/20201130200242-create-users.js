@@ -36,12 +36,12 @@ module.exports = {
       unique: true,
     },
     passwordHash: {
-      type: Sequelize.STRING(50),
-      allowNull: false,
+      type: Sequelize.STRING,
+      allowNull: true,
     },
     mobile: {
       type: Sequelize.STRING(12),
-      allowNull: false,
+      allowNull: true,
     },
     createdAt: {
       type: Sequelize.DATE,
