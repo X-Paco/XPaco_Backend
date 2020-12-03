@@ -2,12 +2,12 @@ import { Router } from 'express';
 
 import MemberController from './app/controllers/MemberController';
 import UserController from './app/controllers/UserController';
+import SessionController from './app/controllers/SessionController';
 
 const routes = new Router();
 
 routes.post('/members', MemberController.store);
-
-//routes.post('/sessions', SessionController.store);
+routes.post('/sessions', SessionController.store);
 
 /* Todas as rotas abaixo desse middleware precisam estar autenticados 
    ================================================================== */

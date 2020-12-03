@@ -27,7 +27,9 @@ class User extends Model {
     /* chamar o init acima */
     return this;
   }
-
+  checkPassword(password) {
+    return bcrypt.compare(password, this.passwordHash);
+  }
   // carregar as asssociações:
   static associate(models) {
     this.belongsTo(models.Member, {
