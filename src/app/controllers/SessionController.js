@@ -6,6 +6,7 @@ import authKey from '../../config/authkey';
 import User from '../models/User';
 
 class SessionController {
+  // será feita a verificação do cadastro. Existindo, solicita ao model a criação do token
   async store(req, res) {
 
     // descontruir o body obtendo apenas email e pasword recebido pela requisição
@@ -18,10 +19,11 @@ class SessionController {
     if (!user) {
       return res.status(401).json({ error: 'Usuário não existe.' });
     }
-
-    /*TODO A função importada do model User (checkPassword) retorna true ou false.
-     Vamos perguntar se não True, retornaremos um res.status erro 401 
-     Passamos o password como paramentro e obtemos o resultado*/
+    /* /TODO: (checkPassword) é a função importada do model User.
+      Passamos o password como paramentro e verificamos se password é igual ao passwordHash
+      O retorno pode ser false ou true.
+      Se senha não for true retornamos um res.status erro 401.
+    */
     if (!(await user.checkPassword(password))) {
       return res.status(401).json({ error: 'Senha Incorreta.' });
     }
