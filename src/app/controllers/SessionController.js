@@ -51,7 +51,7 @@ class SessionController {
       },
       /********************************************************************
         O atributo token será composto por:
-        (id do usuário) +  (frase pessoal criptografada) + (expiresIn: 7d dias)
+        (id e memberId do usuário) +  (frase pessoal criptografada) + (expiresIn: 7d dias)
         para nã ficar exposto vou criar um arquivo com 2 atributos
         secret: (frase pessoal) foi gerada em https://www.md5online.org/
         expiresIn: (tempo para expiração)
@@ -59,7 +59,7 @@ class SessionController {
             
         Criação de token: 
       ********************************************************************/
-      token: jwt.sign({ id }, authKey.secret, { expiresIn: authKey.expiresIn, }),
+      token: jwt.sign({ id, memberId }, authKey.secret, { expiresIn: authKey.expiresIn, }),
     });
   }
 }

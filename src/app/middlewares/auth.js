@@ -27,18 +27,22 @@ export default async (req, res, next) => {
    * 
    * primisify transforma uma callback em um async.
    * jwt.verify() é o callback que precisa dos parâmentros:
-   * - token, authKey.secret(palavra chave criada dentro do arquivo config/authkey)
-   * 
-   * Criando um atributo para a requisição userId passando o id de 
-   * decoded para ser utilizada no userController
-   * 
+   * - token, authKey.secret(frase pessoal criptografada) 
+   * criada dentro do arquivo config/authkey.
+   * decoded - recebe o {id, memberId}, {iat}=data criação, {exp}=data expiração.
+   * Criando atributos do token  para o corpo da requisição:
+   * tkUserId -> userId e
+   * tkMemberId -> memberId  
    * Caso erro em "catch" retornar 401
+   * ---- Usado em Controllers
    ********************************************************************/
   try {
     const decoded = await promisify(jwt.verify)(token, authKey.secret);
     // verificar a necessidade das duas req. abaixos ......
-    req.userId = decoded.id;
-    req.decodificado = decoded;
+    req.decode = decoded;
+    req.tkUserId = decoded.id;
+    req.tkMemberId = decoded.memberId;
+
     return next();
 
   } catch (err) {

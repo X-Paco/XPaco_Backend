@@ -22,14 +22,17 @@ class UserController {
       return res.status(400).json({ error: 'Mobile já existente' });
     }
 
-    const { id, name, nickname, email, passwordHash, mobile, } = req.body;
+    /********************************************************************
+     * Criar variáveis desconstruindo o corpo a requisição
+    ********************************************************************/
+    const { memberId, name, nickname, email, password, passwordHash, mobile, } = req.body;
     /********************************************************************
      * GRAVANDO USER NO BANCO DE DADOS
      * No model User criamos this.addHook('beforeSave') que antes de gravar
      * gera o conteúdo para o passwordHash
     ********************************************************************/
     const user = await User.create({
-      memberId: req.body.memberId, passwordHash, name, nickname, email, mobile,
+      memberId, passwordHash, password, name, nickname, email, mobile,
     });
 
     return res.json({ user });
@@ -39,16 +42,14 @@ class UserController {
     /********************************************************************
      * ATUALIZANDO USER NO BANCO DE DADOS 
      * 
-     * req.userId foi inserida na requisição criada auth.js em try/catch.
+     * req.tkUserId, req.tkMemberId foram inseridas na requisição criada
+     * em auth.js no método try/catch.
+     *  
      * Vamos utilizá-la para operações com este usuário logado.
      ********************************************************************/
-    const userId = req.userId;
-    const decodificado = req.decodificado;
+    //   const { tkMemberId, tkUserId } = req.body;
 
-    console.log(req.userId);
-
-
-    return res.json({ decodificado });
+    return res.json({ tk });
   }
 }
 export default new UserController;
