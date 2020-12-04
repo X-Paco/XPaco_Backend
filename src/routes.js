@@ -9,13 +9,15 @@ const routes = new Router();
 
 routes.post('/sessions', SessionController.store);
 routes.post('/users', UserController.store);
-
-/* Todas as rotas abaixo desse middleware precisam estar autenticados 
-   ================================================================== */
+/********************************************************************
+ * middlewares/auth verifica a existência, validade do token 
+ * no cabeçalho (headers.authorization).
+ * OBS.: 
+ * Todas as rotas abaixo desse middleware precisam estar autenticados 
+********************************************************************/
 routes.use(authMiddleware);
 
 routes.put('/users', UserController.update);
-
 routes.post('/members', MemberController.store);
 //routes.put('/members', MemberController.update);
 

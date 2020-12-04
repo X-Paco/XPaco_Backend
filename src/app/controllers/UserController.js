@@ -22,23 +22,33 @@ class UserController {
       return res.status(400).json({ error: 'Mobile já existente' });
     }
 
-    const { id, memberId, name, nickname, email, password, passwordHash, mobile, } = req.body;
-    // no model User criamos o conteúdo para o passwordHash
+    const { id, name, nickname, email, passwordHash, mobile, } = req.body;
+    /********************************************************************
+     * GRAVANDO USER NO BANCO DE DADOS
+     * No model User criamos this.addHook('beforeSave') que antes de gravar
+     * gera o conteúdo para o passwordHash
+    ********************************************************************/
     const user = await User.create({
-      memberId: req.body.memberId, passwordHash, name, nickname, email, password, mobile,
+      memberId: req.body.memberId, passwordHash, name, nickname, email, mobile,
     });
 
     return res.json({ user });
   }
-  //TODO No auth inserimos uma variável userId com o código do 
-  // usuário capturado na sessão.
 
   async update(req, res) {
+    /********************************************************************
+     * ATUALIZANDO USER NO BANCO DE DADOS 
+     * 
+     * req.userId foi inserida na requisição criada auth.js em try/catch.
+     * Vamos utilizá-la para operações com este usuário logado.
+     ********************************************************************/
+    const userId = req.userId;
+    const decodificado = req.decodificado;
+
     console.log(req.userId);
 
-    const idusuario = req.userId;
 
-    return res.json({ idusuario });
+    return res.json({ decodificado });
   }
 }
 export default new UserController;

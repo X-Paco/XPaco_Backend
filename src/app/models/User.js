@@ -5,7 +5,6 @@ class User extends Model {
   static init(sequelize) {
     super.init(
       {
-        // memberId: Sequelize.INTEGER,
         name: Sequelize.STRING,
         nickname: Sequelize.STRING,
         email: Sequelize.STRING,
@@ -18,10 +17,13 @@ class User extends Model {
         tableName: 'users',
       }
     );
-    /* antes de salvar vamos verificar se existe
-       se existir, atribuir a passwordHash a conversão
-       de password em hash para ser enviado ao controller e gravar no banco
-        8 é força da criptgrafia   */
+    /********************************************************************
+     * CRIANDO HASH
+     * addHook(beforeSave) - antes de salvar executar: 
+     * se existir user.password, atribuir a user.passwordHash o hash 
+     * criado pelo bcrypt.hash através dos parâmentros passados - 
+     * password e  8 é a força da criptgrafia   
+    ********************************************************************/
     this.addHook('beforeSave', async user => {
       if (user.password) {
         user.passwordHash = await bcrypt.hash(user.password, 8);
@@ -30,8 +32,13 @@ class User extends Model {
     /* chamar o init acima */
     return this;
   }
-  /* TODO comparar o Hash gravado no banco com a senha digitada pelo 
-      usuário  retornando um true ou false */
+
+  /********************************************************************
+   * FUNÇÃO QUE COMPARA A SENHA DA REQUISIÇÃO / HASH DO BANCO
+   * 
+   * Comparar o Hash gravado no banco com a senha obtida na requisição  
+   * retornando um true ou false 
+  ********************************************************************/
   checkPassword(password) {
     return bcrypt.compare(password, this.passwordHash);
   }
