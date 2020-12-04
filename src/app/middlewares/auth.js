@@ -22,7 +22,7 @@ export default async (req, res, next) => {
   try {
     const decoded = await promisify(jwt.verify)(token, authKey.secret);
 
-    // criando uma variável para req
+    // criando uma variável userId para ser utilizada no userController
     req.userId = decoded.id;
 
     return next();

@@ -18,7 +18,10 @@ class User extends Model {
         tableName: 'users',
       }
     );
-    /* 8 é força da criptgrafia   */
+    /* antes de salvar vamos verificar se existe
+       se existir, atribuir a passwordHash a conversão
+       de password em hash para ser enviado ao controller e gravar no banco
+        8 é força da criptgrafia   */
     this.addHook('beforeSave', async user => {
       if (user.password) {
         user.passwordHash = await bcrypt.hash(user.password, 8);
@@ -27,6 +30,8 @@ class User extends Model {
     /* chamar o init acima */
     return this;
   }
+  /* TODO comparar o Hash gravado no banco com a senha digitada pelo 
+      usuário  retornando um true ou false */
   checkPassword(password) {
     return bcrypt.compare(password, this.passwordHash);
   }

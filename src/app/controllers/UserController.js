@@ -23,8 +23,9 @@ class UserController {
     }
 
     const { id, memberId, name, nickname, email, password, passwordHash, mobile, } = req.body;
+    // no model User criamos o conteúdo para o passwordHash
     const user = await User.create({
-      memberId: req.body.memberId, name, nickname, email, password, passwordHash, mobile,
+      memberId: req.body.memberId, passwordHash, name, nickname, email, password, mobile,
     });
 
     return res.json({ user });
@@ -35,8 +36,9 @@ class UserController {
   async update(req, res) {
     console.log(req.userId);
 
-    const resulta = req.userId;
-    return res.json({ resulta });
+    const idusuario = req.userId;
+
+    return res.json({ idusuario });
   }
 }
 export default new UserController;
