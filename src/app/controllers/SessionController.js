@@ -1,35 +1,46 @@
-/* obs.: A importação de módulos vem sempre acima das importações de arquivos de um projeto
-exemplo: import jwt from 'jsonwebtoken'; */
+/* ******************************************************************* 
+ obs.: A importação de módulos vem sempre acima das importações de arquivos
+ de um projeto exemplo: import jwt from 'jsonwebtoken';
+*******************************************************************  */
 import jwt from 'jsonwebtoken';
 
 import authKey from '../../config/authkey';
 import User from '../models/User';
 
 class SessionController {
-  // será feita a verificação do cadastro. Existindo, solicita ao model a criação do token
+  /******************************************************************** 
+  será feita a verificação do cadastro. Existindo, solicita ao model a
+  criação do token
+  ********************************************************************/
   async store(req, res) {
-
-    // descontruir o body obtendo apenas email e pasword recebido pela requisição
+    /******************************************************************** 
+     descontruir o body obtendo apenas email e pasword recebido pela requisição
+    ********************************************************************/
     const { email, password } = req.body;
-
-    /* varrer o banco a procura de uma tupla onde o email: email
-        o retorno é atribuído a user */
+    /******************************************************************** 
+     Varrer o banco a procura de uma tupla onde o email: email o retorno 
+     é atribuído a user, se não encontrar retorna erro 401 
+    ********************************************************************/
     const user = await User.findOne({ where: { email } });
-    /* se não encontrar retorna erro 401 */
     if (!user) {
       return res.status(401).json({ error: 'Usuário não existe.' });
     }
-    /* /TODO: (checkPassword) é a função importada do model User.
-      Passamos o password como paramentro e verificamos se password é igual ao passwordHash
-      O retorno pode ser false ou true.
-      Se senha não for true retornamos um res.status erro 401.
-    */
+    /* ******************************************************************* 
+      vamos desconstruir o user e obtendo 3 atributos da tupla  
+    ******************************************************************** */
+    const { id, name, memberId, passwordHash, } = user;
+    /* ******************************************************************* 
+      (checkPassword) é a função importada do model User.
+      Passamos o password como paramentro e verificamos se password é igual
+      ao passwordHash. O retorno pode ser false ou true.
+      Se retorno não for true retornamos um res.status erro 401.
+    * *********************************************************************/
     if (!(await user.checkPassword(password))) {
       return res.status(401).json({ error: 'Senha Incorreta.' });
     }
-    /* desconstruir o user e obtendo 3 atributos   */
-    const { id, name, memberId, passwordHash, } = user;
-
+    /********************************************************************
+     * Se tudo estiver correto vamos retornar json com os atributos 
+    ********************************************************************/
     return res.json({
       user: {
         id,
@@ -38,16 +49,16 @@ class SessionController {
         memberId,
         passwordHash,
       },
-      /* o atributo token será composto por:
-          (id do usuário) +  (frase pessoal criptografada) + (expiresIn: 7d dias)
-          para nã ficar exposto vou criar um arquivo com 2 atributos
-          secret: (frase pessoal)
-          expiresIn: (tempo para expiração)
-          o arquivo authKey está salvo na pasta /config .
-          obs:https://www.md5online.org/
-          
-          Criação de token */
-
+      /********************************************************************
+        O atributo token será composto por:
+        (id do usuário) +  (frase pessoal criptografada) + (expiresIn: 7d dias)
+        para nã ficar exposto vou criar um arquivo com 2 atributos
+        secret: (frase pessoal) foi gerada em https://www.md5online.org/
+        expiresIn: (tempo para expiração)
+        o arquivo authKey está salvo na pasta /config .
+            
+        Criação de token: 
+      ********************************************************************/
       token: jwt.sign({ id }, authKey.secret, { expiresIn: authKey.expiresIn, }),
     });
   }
