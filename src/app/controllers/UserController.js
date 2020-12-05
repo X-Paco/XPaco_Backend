@@ -26,7 +26,7 @@ class UserController {
     }
 
     /********************************************************************
-     * Criar Constantes, destruturando o corpo da requisição
+     * Criar Constantes, desistruturando o corpo da requisição
     ********************************************************************/
     const { memberId, name, nickname, email, password, passwordHash, mobile, } = req.body;
     /********************************************************************
@@ -48,9 +48,9 @@ class UserController {
   ********************************************************************/
   async update(req, res) {
     /********************************************************************
-     * Criar Constantes destruturado o corpo da requisição
+     * Criar Constantes desistruturando o corpo da requisição
     ********************************************************************/
-    const { email, oldPassword, } = req.body;
+    const bodyReq = req.body;
 
     /********************************************************************
      * CONSTANTE recebe tupla/BD em json, se TOKEN(id) for encontrado
@@ -60,7 +60,23 @@ class UserController {
      ********************************************************************/
     const userBd = await User.findByPk(req.tkUserId);
 
-    return res.json({ userBd });
+    if (bodyReq.email !== userBd.email) {
+      const emailExist = await User.findOne({
+        where: { email: bodyReq.email },
+      });
+      if (emailExist) {
+        return res.status(400).json({ error: 'E-mail Já existente.' });
+      }
+    }
+    if (bodyReq.oldPassword && !(await userBd.checkPassword(bodyReq.oldPassword))) {
+      return res.status(401).json({ error: 'Senha atual incorreta.' });
+    }
+
+    const aa = bodyReq.email;
+    const ab = userBd.email;
+    const ad = userBd.passwordHash;
+    const ac = bodyReq.oldPassword;
+    return res.json({ aa, ab, ac, ad, });
 
   }
 }
