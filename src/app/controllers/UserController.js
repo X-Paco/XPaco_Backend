@@ -1,29 +1,32 @@
 import User from '../models/User';
 
 class UserController {
+  /********************************************************************
+    * MÉTODO - INSERIR USUÁRIO NO BD 
+  ********************************************************************/
   async store(req, res) {
 
-    const userEmailExiste = await User.findOne({
+    const emailExist = await User.findOne({
       where: { email: req.body.email }
     });
-    if (userEmailExiste) {
+    if (emailExist) {
       return res.status(400).json({ error: 'E-mail já existente' });
     }
-    const userNicknameExiste = await User.findOne({
+    const nicknameExist = await User.findOne({
       where: { nickname: req.body.nickname }
     });
-    if (userNicknameExiste) {
+    if (nicknameExist) {
       return res.status(400).json({ error: 'Nickname já existente' });
     }
-    const userMobileExiste = await User.findOne({
+    const mobileExist = await User.findOne({
       where: { mobile: req.body.mobile }
     });
-    if (userMobileExiste) {
+    if (mobileExist) {
       return res.status(400).json({ error: 'Mobile já existente' });
     }
 
     /********************************************************************
-     * Criar variáveis desconstruindo o corpo a requisição
+     * Criar Constantes, destruturando o corpo da requisição
     ********************************************************************/
     const { memberId, name, nickname, email, password, passwordHash, mobile, } = req.body;
     /********************************************************************
@@ -37,19 +40,28 @@ class UserController {
 
     return res.json({ user });
   }
-
+  /********************************************************************
+    * ATUALIZAR BD DE USERS 
+    * ________________________________________________________________
+    * atributos do BODY da REQUISIÇÃO:
+    * memberId | name | nickname | email | mobile | oldPassword | password
+  ********************************************************************/
   async update(req, res) {
     /********************************************************************
-     * ATUALIZANDO USER NO BANCO DE DADOS 
-     * 
-     * req.tkUserId, req.tkMemberId foram inseridas na requisição criada
-     * em auth.js no método try/catch.
-     *  
-     * Vamos utilizá-la para operações com este usuário logado.
-     ********************************************************************/
-    //   const { tkMemberId, tkUserId } = req.body;
+     * Criar Constantes destruturado o corpo da requisição
+    ********************************************************************/
+    const { email, oldPassword, } = req.body;
 
-    return res.json({ tk });
+    /********************************************************************
+     * CONSTANTE recebe tupla/BD em json, se TOKEN(id) for encontrado
+     * ___________________________________________________________________
+     * req.tkUserId, req.tkMemberId foram inseridas na requisição e criadas
+     * em auth.js no método try/catch.
+     ********************************************************************/
+    const userBd = await User.findByPk(req.tkUserId);
+
+    return res.json({ userBd });
+
   }
 }
 export default new UserController;
