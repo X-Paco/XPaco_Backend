@@ -60,7 +60,7 @@ class UserController {
      ********************************************************************/
     const userBd = await User.findByPk(req.tkUserId);
 
-    if (bodyReq.email !== userBd.email) {
+    if (bodyReq.email && (bodyReq.email !== userBd.email)) {
       const emailExist = await User.findOne({
         where: { email: bodyReq.email },
       });
