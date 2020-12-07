@@ -15,7 +15,7 @@ export default async (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
-    return res.status(401).json({ error: 'Token não existe.' });
+    return res.status(401).json({ error: 'Token Ausente!' });
   }
   /********************************************************************
   vamos separar o Bearer do token e [, resto] descartar a primeira 

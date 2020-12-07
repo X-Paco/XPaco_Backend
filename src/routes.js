@@ -17,8 +17,8 @@ routes.post('/users', UserController.store);
 ********************************************************************/
 routes.use(authMiddleware);
 
-routes.put('/users', UserController.update);
 routes.post('/members', MemberController.store);
+routes.put('/users', UserController.update);
 routes.put('/members', MemberController.update);
 
 

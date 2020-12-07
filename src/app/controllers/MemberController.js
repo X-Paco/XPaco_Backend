@@ -3,10 +3,10 @@ import Member from '../models/Member';
 class MemberController {
   async store(req, res) {
 
-    const memberExiste = await Member.findOne({
+    const memberExist = await Member.findOne({
       where: { description: req.body.description },
     });
-    if (memberExiste) {
+    if (memberExist) {
       return res.status(400).json({ error: 'Tipo já existente.' });
     }
 
@@ -36,30 +36,30 @@ class MemberController {
      * req.tkUserId criado  - no método try/catch em Middleware/auth.js
      * Middleware/auth.js é Chamado antes dos Controllers em routes.js 
      ********************************************************************/
-    const userBd = await User.findByPk(req.tkUserId);
 
     // Se usuário logado for diferente de 1(administrador), recusar.
-    if (userBd.memberId && (userBd.memberId !== 1)) {
+    if (req.tkMemberId && (req.tkMemberId !== 1)) {
       return res.status(403).json({ error: 'Não tem autorização' });
     }
 
     const memberExiste = await Member.findOne({
-      where: { description: req.body.description },
+      where: { description: bodyReq.description },
     });
     if (memberExiste) {
       return res.status(400).json({ error: 'Tipo já existente.' });
     }
 
     // Desconstruir
-    const { description } = await Member.update(req.body);
+    const { description } = await Member.update({
+      description: bodyReq.description,
+    },
+      {
+        where: { description: bodyReq.oldDescription },
+      }
+    );
+    const resposta = bodyReq.description;
+    return res.json(resposta);
 
-    return res.json({
-      description,
-    });
-
-    return res.json({
-      memberId, name,
-    });
   }
 }
 export default new MemberController(); 

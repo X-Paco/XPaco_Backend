@@ -9,6 +9,7 @@ class Member extends Model {
           unique: true,
           allowNull: false,
         },
+        oldDescription: Sequelize.VIRTUAL,
       },
       {
         sequelize,
