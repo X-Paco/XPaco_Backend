@@ -32,7 +32,7 @@ class Media extends Model {
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     });
-    this.sync();
+    this.sync({ force: false }).then(() => { });
     // Media.belongsTo(Publication) - Pertence-à => associação significa que existe um relacionamento
     // Um para Um entre Media e Publication, com a chave estrangeira sendo definida no
     // modelo de origem (Media).

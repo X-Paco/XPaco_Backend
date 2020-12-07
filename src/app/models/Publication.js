@@ -57,7 +57,7 @@ class Publication extends Model {
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     });
-    this.sync();
+    this.sync({ force: false }).then(() => { });
     // Publication.hasMany(Media) - associação significa que existe um relacionamento
     // Um-para-Muitos entre Publication e Media, com a chave estrangeira sendo definida no modelo de destino ( Media).
     // e depois faço um apelido para type.

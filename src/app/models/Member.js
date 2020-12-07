@@ -23,7 +23,7 @@ class Member extends Model {
       foreignKey: 'memberId',
     });
 
-    this.sync();
+    this.sync({ force: false }).then(() => { });
     // Member.hasMany(User) - associação significa que existe um relacionamento
     // Um-para-Muitos entre Member e User, com a chave estrangeira sendo definida 
     // no modelo de destino ( User).

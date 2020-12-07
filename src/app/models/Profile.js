@@ -64,7 +64,7 @@ class Profile extends Model {
       onUpdate: 'CASCADE',
       allowNull: false,
     });
-    this.sync();
+    this.sync({ force: false }).then(() => { });
     // A. (B, { /* options */ });
     // Para criar um relacionamento Um para Um ,
     // as associações hasOne e belongsTo são usadas juntas.

@@ -21,7 +21,7 @@ class Material extends Model {
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     });
-    this.sync();
+    this.sync({ force: false }).then(() => { });
     /* Material.belongsToMany(Media, { through: 'Publication_material' }) - associação significa que existe 
       um relacionamento muitos-para-muitos entre Material e Publication, usando a tabela Publication_material 
       como tabela de junção que terá as chaves estrangeiras ( materia_Id e publication_Id). 

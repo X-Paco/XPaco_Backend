@@ -86,7 +86,7 @@ class User extends Model {
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     });
-    this.sync();
+    this.sync({ force: false }).then(() => { });
   }
 }
 export default User; 
