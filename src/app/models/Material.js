@@ -4,10 +4,11 @@ class Material extends Model {
   static init(sequelize) {
     super.init(
       {
-        description: Sequelize.STRING,
+        description: Sequelize.STRING(50),
       },
       {
         sequelize,
+        tableName: 'materials',
       }
     );
     return this;
@@ -16,8 +17,11 @@ class Material extends Model {
     this.belongsToMany(models.Publication, {
       through: 'publicationMaterials',
       foreignKey: 'materialId',
-      as: 'material',
+      as: 'materialPublication',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
     });
+    this.sync();
     /* Material.belongsToMany(Media, { through: 'Publication_material' }) - associação significa que existe 
       um relacionamento muitos-para-muitos entre Material e Publication, usando a tabela Publication_material 
       como tabela de junção que terá as chaves estrangeiras ( materia_Id e publication_Id). 

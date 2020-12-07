@@ -6,6 +6,12 @@ class UserController {
   ********************************************************************/
   async store(req, res) {
 
+    /********************************************************************
+     * Criar Constantes, desistruturando o corpo da requisição
+     * memberId, name, nickname, email, password, passwordHash, mobile,
+    ********************************************************************/
+    const { memberId, name, nickname, email, password, passwordHash, mobile, } = req.body;
+
     const emailExist = await User.findOne({
       where: { email: req.body.email }
     });
@@ -25,14 +31,13 @@ class UserController {
       return res.status(400).json({ error: 'Mobile já existente' });
     }
 
-    /********************************************************************
-     * Criar Constantes, desistruturando o corpo da requisição
-    ********************************************************************/
-    const { memberId, name, nickname, email, password, passwordHash, mobile, } = req.body;
+
+
     /********************************************************************
      * GRAVANDO USER NO BANCO DE DADOS
+     * __________________________________________________________________
      * No model User criamos this.addHook('beforeSave') que antes de gravar
-     * gera o conteúdo para o passwordHash
+     * verifica se existe user.password e gera hash para o passwordHash
     ********************************************************************/
     const user = await User.create({
       memberId, passwordHash, password, name, nickname, email, mobile,
@@ -40,6 +45,7 @@ class UserController {
 
     return res.json({ user });
   }
+
   /********************************************************************
     * ATUALIZAR BD DE USERS 
     * ________________________________________________________________
@@ -53,31 +59,59 @@ class UserController {
     const bodyReq = req.body;
 
     /********************************************************************
-     * CONSTANTE recebe tupla/BD em json, se TOKEN(id) for encontrado
+     * Recebe tupla do Users se o TOKEN(id)[req.tkUserId] for encontrado.
      * ___________________________________________________________________
-     * req.tkUserId, req.tkMemberId foram inseridas na requisição e criadas
-     * em auth.js no método try/catch.
+     * req.tkUserId criado  - no método try/catch em Middleware/auth.js
+     * Middleware/auth.js é Chamado antes dos Controllers em routes.js 
      ********************************************************************/
     const userBd = await User.findByPk(req.tkUserId);
 
+    if (bodyReq.memberId && (bodyReq.memberId !== userBd.memberId)) {
+      return res.status(403).json({ error: 'Não é permitido substituir o grupo!' });
+    }
+    if (bodyReq.name && (bodyReq.name !== userBd.name)) {
+      const nameExist = await User.findOne({
+        where: { name: bodyReq.name }
+      });
+      if (nameExist) {
+        return res.status(403).json({ error: 'Nome já existente' });
+      }
+    }
+    if (bodyReq.nickname && (bodyReq.nickname !== userBd.nickname)) {
+      const nicknameExist = await User.findOne({
+        where: { nickname: bodyReq.nickname }
+      });
+      if (nicknameExist) {
+        return res.status(403).json({ error: 'Nickname já existente' });
+      }
+    }
     if (bodyReq.email && (bodyReq.email !== userBd.email)) {
       const emailExist = await User.findOne({
         where: { email: bodyReq.email },
       });
       if (emailExist) {
-        return res.status(400).json({ error: 'E-mail Já existente.' });
+        return res.status(403).json({ error: 'E-mail Já existente.' });
+      }
+    }
+    if (bodyReq.mobile && (bodyReq.mobile !== userBd.mobile)) {
+      const mobileExist = await User.findOne({
+        where: { mobile: bodyReq.mobile },
+      });
+      if (mobileExist) {
+        return res.status(403).json({ error: 'Celular já cadastrado' })
       }
     }
     if (bodyReq.oldPassword && !(await userBd.checkPassword(bodyReq.oldPassword))) {
-      return res.status(401).json({ error: 'Senha atual incorreta.' });
+      return res.status(403).json({ error: 'Senha atual incorreta.' });
     }
+    const { name, } = bodyReq;
+    const user = await User.update({
+      name,
+    });
 
-    const aa = bodyReq.email;
-    const ab = userBd.email;
-    const ad = userBd.passwordHash;
-    const ac = bodyReq.oldPassword;
-    return res.json({ aa, ab, ac, ad, });
-
+    return res.json({
+      memberId, name,
+    });
   }
 }
 export default new UserController;

@@ -5,12 +5,30 @@ class User extends Model {
   static init(sequelize) {
     super.init(
       {
-        name: Sequelize.STRING,
-        nickname: Sequelize.STRING,
-        email: Sequelize.STRING,
+        name: {
+          type: Sequelize.STRING(50),
+          allowNull: false,
+        },
+        nickname: {
+          type: Sequelize.STRING(15),
+          allowNull: false,
+          unique: true,
+        },
+        email: {
+          type: Sequelize.STRING,
+          allowNull: false,
+          unique: true,
+        },
+        mobile: {
+          type: Sequelize.STRING(12),
+          allowNull: true,
+        },
+        passwordHash: {
+          type: Sequelize.STRING,
+          allowNull: true,
+        },
         password: Sequelize.VIRTUAL,
-        passwordHash: Sequelize.STRING,
-        mobile: Sequelize.STRING,
+        oldPassword: Sequelize.VIRTUAL,
       },
       {
         sequelize,
@@ -32,7 +50,6 @@ class User extends Model {
     /* chamar o init acima */
     return this;
   }
-
   /********************************************************************
    * FUNÇÃO QUE COMPARA A SENHA DA REQUISIÇÃO / HASH DO BANCO
    * 
@@ -50,7 +67,7 @@ class User extends Model {
       as: 'member',
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
-      hooks: true,
+      allowNull: false,
     });
     // adicionará userId(chave-estrangeira) à tabela de Profile.
     this.hasOne(models.Profile, {
@@ -69,7 +86,7 @@ class User extends Model {
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     });
-
+    this.sync();
   }
 }
 export default User; 

@@ -3,10 +3,23 @@ class Publication extends Model {
   static init(sequelize) {
     super.init(
       {
-        tag: Sequelize.STRING,
-        checking: Sequelize.BOOLEAN,
-        description: Sequelize.STRING,
-        link: Sequelize.STRING,
+        tag: {
+          type: Sequelize.STRING,
+          allowNull: true,
+        },
+        checking: {
+          type: Sequelize.BOOLEAN,
+          defaultValue: false,
+          allowNull: false,
+        },
+        description: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
+        link: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
       },
       {
         sequelize,
@@ -20,6 +33,7 @@ class Publication extends Model {
       sourceKey: 'id',
       foreignKey: 'publicationId',
       as: 'media',
+
     });
     this.belongsTo(models.User, {
       targetKey: 'id',
@@ -27,6 +41,7 @@ class Publication extends Model {
       as: 'user',
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
+      allowNull: false,
     });
     this.belongsToMany(models.User, {
       through: 'favorites',
@@ -38,9 +53,11 @@ class Publication extends Model {
     this.belongsToMany(models.Material, {
       through: 'publicationMaterials',
       foreignKey: 'publicationId',
-      as: 'publication',
+      as: 'publicationMaterial',
+      onDelete: 'CASCADE',
+      onUpdate: 'CASCADE',
     });
-
+    this.sync();
     // Publication.hasMany(Media) - associação significa que existe um relacionamento
     // Um-para-Muitos entre Publication e Media, com a chave estrangeira sendo definida no modelo de destino ( Media).
     // e depois faço um apelido para type.

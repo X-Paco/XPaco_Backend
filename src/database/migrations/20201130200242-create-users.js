@@ -31,16 +31,16 @@ module.exports = {
       unique: true,
     },
     email: {
-      type: Sequelize.STRING(50),
+      type: Sequelize.STRING,
       allowNull: false,
       unique: true,
     },
-    passwordHash: {
-      type: Sequelize.STRING,
-      allowNull: true,
-    },
     mobile: {
       type: Sequelize.STRING(12),
+      allowNull: true,
+    },
+    passwordHash: {
+      type: Sequelize.STRING,
       allowNull: true,
     },
     createdAt: {

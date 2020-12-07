@@ -38,10 +38,16 @@ export default async (req, res, next) => {
    ********************************************************************/
   try {
     const decoded = await promisify(jwt.verify)(token, authKey.secret);
-    // verificar a necessidade das duas req. abaixos ......
-    req.decode = decoded;
+    /********************************************************************
+     * TOKEN DO USUÁRIO CAPTURADO:
+     * __________________________________________________________________
+     * Criando atributos do token  para o corpo da requisição:
+     * tkUserId -> userId e
+     * tkMemberId -> memberId  
+     ********************************************************************/
     req.tkUserId = decoded.id;
     req.tkMemberId = decoded.memberId;
+    req.decode = decoded;
 
     return next();
 

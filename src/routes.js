@@ -19,7 +19,7 @@ routes.use(authMiddleware);
 
 routes.put('/users', UserController.update);
 routes.post('/members', MemberController.store);
-//routes.put('/members', MemberController.update);
+routes.put('/members', MemberController.update);
 
 
 

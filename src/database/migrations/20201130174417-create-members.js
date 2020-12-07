@@ -10,6 +10,7 @@ module.exports = {
     },
     description: {
       type: Sequelize.STRING(30),
+      unique: true,
       allowNull: false,
     },
     createdAt: {

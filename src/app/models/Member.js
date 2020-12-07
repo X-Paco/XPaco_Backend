@@ -4,7 +4,11 @@ class Member extends Model {
   static init(sequelize) {
     super.init(
       {
-        description: Sequelize.STRING,
+        description: {
+          type: Sequelize.STRING(30),
+          unique: true,
+          allowNull: false,
+        },
       },
       {
         sequelize,
@@ -18,6 +22,8 @@ class Member extends Model {
       sourceKey: 'id',
       foreignKey: 'memberId',
     });
+
+    this.sync();
     // Member.hasMany(User) - associação significa que existe um relacionamento
     // Um-para-Muitos entre Member e User, com a chave estrangeira sendo definida 
     // no modelo de destino ( User).
