@@ -1,3 +1,4 @@
+import * as Yup from 'yup';
 import User from '../models/User';
 
 class UserController {
@@ -6,11 +7,31 @@ class UserController {
   ********************************************************************/
   async store(req, res) {
 
+    const schema = Yup.object().shape(
+      {
+        memberId: Yup.number().required(),
+        name: Yup.string().required().max(50),
+        nickname: Yup.string().required().max(15),
+        email: Yup.string().email().required(),
+        password: Yup.string().required().min(6),
+        passwordConfirm: Yup.string().required()
+          .oneOf(
+            [Yup.ref('password')], 'As senhas não correspondem!'
+          ),
+        mobile: Yup.string().max(12),
+      }
+    );
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(401).json({ error: 'Falha na validação!' })
+
+    }
+
     /********************************************************************
      * Criar Constantes, desistruturando o corpo da requisição
      * memberId, name, nickname, email, password, passwordHash, mobile,
     ********************************************************************/
-    const { memberId, name, nickname, email, password, passwordHash, mobile, } = req.body;
+    const { memberId, name, nickname, email, password, passwordConfirm, passwordHash, mobile, } = req.body;
 
     const emailExist = await User.findOne({
       where: { email: req.body.email }
@@ -30,9 +51,6 @@ class UserController {
     if (mobileExist) {
       return res.status(400).json({ error: 'Mobile já existente' });
     }
-
-
-
     /********************************************************************
      * GRAVANDO USER NO BANCO DE DADOS
      * __________________________________________________________________

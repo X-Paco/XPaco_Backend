@@ -52,9 +52,9 @@ class SessionController {
       /********************************************************************
         O atributo token será composto por:
         (id e memberId do usuário) +  (frase pessoal criptografada) + (expiresIn: 7d dias)
-        para nã ficar exposto vou criar um arquivo com 2 atributos
-        secret: (frase pessoal) foi gerada em https://www.md5online.org/
-        expiresIn: (tempo para expiração)
+        O arquivo authKey, foi criado na pasta /config com 2 atributos
+        authKey.secret: (frase pessoal) foi gerada em https://www.md5online.org/
+        authKey.expiresIn: (tempo para expiração)
         o arquivo authKey está salvo na pasta /config .
             
         Criação de token: 

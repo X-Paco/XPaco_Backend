@@ -28,6 +28,7 @@ class User extends Model {
           allowNull: true,
         },
         password: Sequelize.VIRTUAL,
+        passwordConfirm: Sequelize.VIRTUAL,
         oldPassword: Sequelize.VIRTUAL,
       },
       {

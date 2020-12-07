@@ -1,4 +1,5 @@
 import Member from '../models/Member';
+import * as Yup from 'yup';
 
 class MemberController {
   async store(req, res) {
