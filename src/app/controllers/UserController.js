@@ -1,12 +1,20 @@
 import * as Yup from 'yup';
 import User from '../models/User';
-
 class UserController {
+
   /********************************************************************
-    * MÉTODO - INSERIR USUÁRIO NO BD 
+  * MÉTODO - CRIAR USUÁRIO NO BD 
+  * __________________________________________________________________
+    * atributos do BODY da REQUISIÇÃO:
+    * memberId | name | nickname | email | mobile | oldPassword | password 
   ********************************************************************/
   async store(req, res) {
 
+    const bodyReq = req.body;
+    /********************************************************************
+     * Validação do corpo da requisição
+     * memberId, name, nickname, email, password, passwordHash, mobile,
+    ********************************************************************/
     const schema = Yup.object().shape(
       {
         memberId: Yup.number().required(),
@@ -21,61 +29,73 @@ class UserController {
         mobile: Yup.string().max(12),
       }
     );
-
-    if (!(await schema.isValid(req.body))) {
+    if (!(await schema.isValid(bodyReq))) {
       return res.status(401).json({ error: 'Falha na validação!' })
-
     }
-
     /********************************************************************
      * Criar Constantes, desistruturando o corpo da requisição
      * memberId, name, nickname, email, password, passwordHash, mobile,
     ********************************************************************/
-    const { memberId, name, nickname, email, password, passwordConfirm, passwordHash, mobile, } = req.body;
-
     const emailExist = await User.findOne({
-      where: { email: req.body.email }
+      where: { email: bodyReq.email }
     });
     if (emailExist) {
       return res.status(400).json({ error: 'E-mail já existente' });
     }
     const nicknameExist = await User.findOne({
-      where: { nickname: req.body.nickname }
+      where: { nickname: bodyReq.nickname }
     });
     if (nicknameExist) {
       return res.status(400).json({ error: 'Nickname já existente' });
     }
     const mobileExist = await User.findOne({
-      where: { mobile: req.body.mobile }
+      where: { mobile: bodyReq.mobile }
     });
     if (mobileExist) {
       return res.status(400).json({ error: 'Mobile já existente' });
     }
-    /********************************************************************
+    /*******************************************************************
      * GRAVANDO USER NO BANCO DE DADOS
      * __________________________________________________________________
      * No model User criamos this.addHook('beforeSave') que antes de gravar
      * verifica se existe user.password e gera hash para o passwordHash
     ********************************************************************/
+    const { memberId, passwordHash, password, name, nickname, email, mobile, } = bodyReq;
     const user = await User.create({
       memberId, passwordHash, password, name, nickname, email, mobile,
     });
-
     return res.json({ user });
   }
 
   /********************************************************************
-    * ATUALIZAR BD DE USERS 
+    * MÉTODO - ATUALIZAR USUÁRIO NO BD 
     * ________________________________________________________________
     * atributos do BODY da REQUISIÇÃO:
     * memberId | name | nickname | email | mobile | oldPassword | password
   ********************************************************************/
   async update(req, res) {
     /********************************************************************
-     * Criar Constantes desistruturando o corpo da requisição
+     * Criar Constantes com corpo da requisição
     ********************************************************************/
     const bodyReq = req.body;
-
+    /********************************************************************
+     * Validação do corpo da requisição
+     * memberId, name, nickname, email, password, passwordHash, mobile,
+    ********************************************************************/
+    const schema = Yup.object().shape(
+      {
+        memberId: Yup.number().required(),
+        name: Yup.string().max(50),
+        nickname: Yup.string().max(15),
+        email: Yup.string().email(),
+        oldPassword: Yup.string().min(6),
+        password: Yup.string().min(6),
+        mobile: Yup.string().max(12),
+      }
+    );
+    if (!(await schema.isValid(bodyReq))) {
+      return res.status(401).json({ error: 'Falha na validação!' })
+    }
     /********************************************************************
      * Recebe tupla do Users se o TOKEN(id)[req.tkUserId] for encontrado.
      * ___________________________________________________________________
@@ -84,10 +104,10 @@ class UserController {
      ********************************************************************/
     const userBd = await User.findByPk(req.tkUserId);
 
-    if (bodyReq.memberId && (bodyReq.memberId !== userBd.memberId)) {
+    if (bodyReq.memberId !== userBd.memberId) {
       return res.status(403).json({ error: 'Não é permitido substituir o grupo!' });
     }
-    if (bodyReq.name && (bodyReq.name !== userBd.name)) {
+    if (bodyReq.name !== userBd.name) {
       const nameExist = await User.findOne({
         where: { name: bodyReq.name }
       });
@@ -95,7 +115,7 @@ class UserController {
         return res.status(403).json({ error: 'Nome já existente' });
       }
     }
-    if (bodyReq.nickname && (bodyReq.nickname !== userBd.nickname)) {
+    if (bodyReq.nickname !== userBd.nickname) {
       const nicknameExist = await User.findOne({
         where: { nickname: bodyReq.nickname }
       });
@@ -103,7 +123,7 @@ class UserController {
         return res.status(403).json({ error: 'Nickname já existente' });
       }
     }
-    if (bodyReq.email && (bodyReq.email !== userBd.email)) {
+    if (bodyReq.email !== userBd.email) {
       const emailExist = await User.findOne({
         where: { email: bodyReq.email },
       });
@@ -111,25 +131,118 @@ class UserController {
         return res.status(403).json({ error: 'E-mail Já existente.' });
       }
     }
-    if (bodyReq.mobile && (bodyReq.mobile !== userBd.mobile)) {
+    if (bodyReq.mobile !== userBd.mobile) {
       const mobileExist = await User.findOne({
         where: { mobile: bodyReq.mobile },
       });
       if (mobileExist) {
-        return res.status(403).json({ error: 'Celular já cadastrado' })
+        return res.status(403).json({ error: 'Celular já cadastrado' });
       }
     }
-    if (bodyReq.oldPassword && !(await userBd.checkPassword(bodyReq.oldPassword))) {
+    if (await userBd.checkPassword(bodyReq.oldPassword)) {
       return res.status(403).json({ error: 'Senha atual incorreta.' });
     }
-    const { name, } = bodyReq;
+    const { memberId, passwordHash, password, name, nickname, email, mobile, } = bodyReq;
     const user = await User.update({
-      name,
-    });
+      memberId, passwordHash, password, name, nickname, email, mobile,
 
-    return res.json({
-      memberId, name,
-    });
+    },
+      {
+        where: { id: userBd.id },
+      }
+    );
+    return res.json(bodyReq);
+  }
+
+  /********************************************************************
+  * MÉTODO - LISTAR USUÁRIO NO BD 
+  * __________________________________________________________________
+    * atributos do BODY da REQUISIÇÃO:
+    * | email |   ou req.params - paramUser
+  ********************************************************************/
+  async index(req, res) {
+    // ==============================================================
+    const paramUser = parseInt(req.params.paramUser);  // 4
+    if (!Number.isNaN(paramUser)) {
+      if (paramUser == req.tkUserId) {
+        const user = await User.findByPk(req.tkUserId);
+        if (!user) {
+          return res.status(400).json({ error: `o argumento ${user.id}` });
+        }
+        return res.json({ user });
+      } else {
+        return res.status(403).json({ error: 'Não autorizado' });
+      }
+    }
+    const bodyReq = req.body;
+    const schema = Yup.object().shape(
+      {
+        paramUser: Yup.number(),
+        name: Yup.string().max(50),
+        nickname: Yup.string().max(15),
+        email: Yup.string().email(),
+        oldPassword: Yup.string().min(6),
+        password: Yup.string().min(6),
+        mobile: Yup.string().max(12),
+      }
+    );
+    if (!(await schema.isValid(bodyReq))) {
+      return res.status(401).json({ error: 'Falha na validação!' });
+    }
+    const user = await User.findByPk(req.tkUserId);
+    if (!user) {
+      return res.status(400).json({ error: 'usuário da sessão nao existe' });
+    }
+    if (bodyReq.email !== user.email) {
+      return res.status(401).json({ error: 'Não autorizado' });
+    }
+    return res.json({ user });
+  }
+  /********************************************************************
+  * MÉTODO - REMOVER USUÁRIO NO BD 
+  * __________________________________________________________________
+    * atributos do BODY da REQUISIÇÃO:
+    * memberId | name | nickname | email | mobile | oldPassword | password 
+  ********************************************************************/
+  async delete(req, res) {
+    // ==============================================================
+    const paramUser = parseInt(req.params.paramUser);  // 4
+    if (!Number.isNaN(paramUser)) {
+      if (paramUser == req.tkUserId) {
+        const user = await User.findByPk(req.tkUserId);
+        if (!user) {
+          return res.status(400).json({ error: 'nao existe' });
+        }
+        await user.destroy();
+        return res.send();
+      } else {
+        return res.status(403).json({ error: 'Não autorizado' });
+      }
+    }
+    const bodyReq = req.body;
+    const schema = Yup.object().shape(
+      {
+        paramUser: Yup.number(),
+        name: Yup.string().max(50),
+        nickname: Yup.string().max(15),
+        email: Yup.string().email(),
+        oldPassword: Yup.string().min(6),
+        password: Yup.string().min(6),
+        mobile: Yup.string().max(12),
+      }
+    );
+    if (!(await schema.isValid(bodyReq))) {
+      return res.status(401).json({ error: 'Falha na validação!' });
+    }
+    const user = await User.findByPk(req.tkUserId);
+    if (!user) {
+      return res.status(400).json({ error: 'Usuário da sessão nao existe' });
+    }
+    if (bodyReq.email !== user.email) {
+      return res.status(401).json({ error: `Não autorizado` });
+    }
+    await user.destroy();
+    return res.send();
   }
 }
 export default new UserController;

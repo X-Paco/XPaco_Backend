@@ -17,11 +17,15 @@ routes.post('/users', UserController.store);
 ********************************************************************/
 routes.use(authMiddleware);
 
+// MEMBERS
 routes.post('/members', MemberController.store);
-routes.put('/users', UserController.update);
 routes.put('/members', MemberController.update);
-
-
+// USERS
+routes.put('/users', UserController.update);
+routes.get('/users/:paramUser', UserController.index);
+routes.get('/users/', UserController.index);
+routes.delete('/users/:paramUser', UserController.delete);
+routes.delete('/users/', UserController.delete);
 
 
 export default routes;
