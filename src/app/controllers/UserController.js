@@ -6,7 +6,7 @@ class UserController {
   * MÉTODO - CRIAR USUÁRIO NO BD 
   * __________________________________________________________________
     * atributos do BODY da REQUISIÇÃO:
-    * memberId | name | nickname | email | mobile | oldPassword | password 
+    * memberId | name | nickname | email | mobile | oldPassword | password | passwordConfirm
   ********************************************************************/
   async store(req, res) {
 
@@ -158,13 +158,13 @@ class UserController {
   * MÉTODO - LISTAR USUÁRIO NO BD 
   * __________________________________________________________________
     * atributos do BODY da REQUISIÇÃO:
-    * | email |   ou req.params - paramUser
+    * | email |   ou req.params - paramId
   ********************************************************************/
   async index(req, res) {
     // ==============================================================
-    const paramUser = parseInt(req.params.paramUser);  // 4
-    if (!Number.isNaN(paramUser)) {
-      if (paramUser == req.tkUserId) {
+    const paramId = parseInt(req.params.paramId);  // 4
+    if (!Number.isNaN(paramId)) {
+      if (paramId == req.tkUserId) {
         const user = await User.findByPk(req.tkUserId);
         if (!user) {
           return res.status(400).json({ error: `o argumento ${user.id}` });
@@ -177,7 +177,7 @@ class UserController {
     const bodyReq = req.body;
     const schema = Yup.object().shape(
       {
-        paramUser: Yup.number(),
+        paramId: Yup.number(),
         name: Yup.string().max(50),
         nickname: Yup.string().max(15),
         email: Yup.string().email(),
@@ -206,9 +206,9 @@ class UserController {
   ********************************************************************/
   async delete(req, res) {
     // ==============================================================
-    const paramUser = parseInt(req.params.paramUser);  // 4
-    if (!Number.isNaN(paramUser)) {
-      if (paramUser == req.tkUserId) {
+    const paramId = parseInt(req.params.paramId);  // 4
+    if (!Number.isNaN(paramId)) {
+      if (paramId == req.tkUserId) {
         const user = await User.findByPk(req.tkUserId);
         if (!user) {
           return res.status(400).json({ error: 'nao existe' });
@@ -222,7 +222,7 @@ class UserController {
     const bodyReq = req.body;
     const schema = Yup.object().shape(
       {
-        paramUser: Yup.number(),
+        paramId: Yup.number(),
         name: Yup.string().max(50),
         nickname: Yup.string().max(15),
         email: Yup.string().email(),

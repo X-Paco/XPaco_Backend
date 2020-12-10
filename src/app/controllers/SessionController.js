@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 import authKey from '../../config/authkey';
 import User from '../models/User';
 
+
 class SessionController {
   /******************************************************************** 
   será feita a verificação do cadastro. Existindo, solicita ao model a
