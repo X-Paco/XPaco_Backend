@@ -1,12 +1,18 @@
 import jwt from 'jsonwebtoken';
 /********************************************************************
- transforma uma callback em async
+ util.promisify - transforma uma callback em async
 ********************************************************************/
 import { promisify } from 'util';
 import authKey from '../../config/authkey';
+import User from '../models/User'
 
 /********************************************************************
- inseri o async para poder usar o await logo abaixo
+ * AUTHENTICATE TOKEN
+ * __________________________________________________________________
+ * Verifica se existe token no Header da requisição e caso exista
+ * separa o id e grupo do resto do token
+ * ------------------------------------------------------------------
+ * tkUserId |  tkMemberId | decode
 ********************************************************************/
 export default async (req, res, next) => {
   /********************************************************************
@@ -37,7 +43,6 @@ export default async (req, res, next) => {
    * ---- Usado em Controllers
    ********************************************************************/
   try {
-    const decoded = await promisify(jwt.verify)(token, authKey.secret);
     /********************************************************************
      * TOKEN DO USUÁRIO CAPTURADO:
      * __________________________________________________________________
@@ -45,9 +50,14 @@ export default async (req, res, next) => {
      * tkUserId -> userId e
      * tkMemberId -> memberId  
      ********************************************************************/
+    const decoded = await promisify(jwt.verify)(token, authKey.secret);
     req.tkUserId = decoded.id;
     req.tkMemberId = decoded.memberId;
     req.decode = decoded;
+    const tkUserIdExist = await User.findByPk(req.tkUserId);
+    if (!tkUserIdExist) {
+      return res.status(403).json({ error: 'Token descredenciado' });
+    }
 
     return next();
 

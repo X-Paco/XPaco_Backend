@@ -224,13 +224,15 @@ class UserController {
         return res.status(403).json({ error: 'Não autorizado' });
       }
     }
+    // ================== V A L I D A C A O =========================
     const bodyReq = req.body;
+
     const schema = Yup.object().shape(
       {
         paramId: Yup.number(),
         name: Yup.string().max(50),
         nickname: Yup.string().max(15),
-        email: Yup.string().email(),
+        email: Yup.string().email().required(),
         oldPassword: Yup.string().min(6),
         password: Yup.string().min(6),
         mobile: Yup.string().max(12),
@@ -239,14 +241,19 @@ class UserController {
     if (!(await schema.isValid(bodyReq))) {
       return res.status(401).json({ error: 'Falha na validação!' });
     }
-    const user = await User.findByPk(req.tkUserId);
-    if (!user) {
-      return res.status(400).json({ error: 'Usuário da sessão nao existe' });
+    // ==================================================================
+    const idExist = await User.findByPk(req.tkUserId);
+    const emailExist = await User.findOne({
+      where: { email: bodyReq.email },
+    });
+
+    if (!emailExist) {
+      return res.status(400).json({ error: `email ${bodyReq.email} não encontrado!` });
     }
-    if (bodyReq.email !== user.email) {
+    if (((emailExist.email !== idExist.email) && (req.tkMemberId !== 1))) {
       return res.status(401).json({ error: `Não autorizado` });
     }
-    await user.destroy();
+    await emailExist.destroy();
     return res.send();
   }
 }
