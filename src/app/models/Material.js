@@ -5,6 +5,7 @@ class Material extends Model {
     super.init(
       {
         description: Sequelize.STRING(50),
+        oldDescription: Sequelize.VIRTUAL,
       },
       {
         sequelize,
@@ -21,7 +22,7 @@ class Material extends Model {
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
     });
-    this.sync({ force: false }).then(() => { });
+    this.sync({ force: true }).then(() => { });
     /* Material.belongsToMany(Media, { through: 'Publication_material' }) - associação significa que existe 
       um relacionamento muitos-para-muitos entre Material e Publication, usando a tabela Publication_material 
       como tabela de junção que terá as chaves estrangeiras ( materia_Id e publication_Id). 

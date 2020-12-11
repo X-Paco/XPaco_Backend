@@ -37,6 +37,29 @@ routes.get('/users/', UserController.index);
 routes.delete('/users/:paramId', UserController.delete);
 routes.delete('/users/', UserController.delete);
 
+// PROFILES
+routes.post('/materials', MaterialController.store);
+routes.put('/materials', MaterialController.update);
+routes.get('/materials/:paramId', MaterialController.index);
+routes.get('/materials/', MaterialController.index);
+routes.delete('/materials/:paramId', MaterialController.delete);
+routes.delete('/materials/', MaterialController.delete);
+
+// PUBLICATIONS
+routes.post('/publications', PublicationController.store);
+routes.put('/publications', PublicationController.update);
+routes.get('/publications/:paramId', PublicationController.index);
+routes.get('/publications/', PublicationController.index);
+routes.delete('/publications/:paramId', PublicationController.delete);
+routes.delete('/publications/', PublicationController.delete);
+
+// MEDIAS
+routes.post('/medias', MediaController.store);
+routes.put('/medias', MediaController.update);
+routes.get('/medias/:paramId', MediaController.index);
+routes.get('/medias/', MediaController.index);
+routes.delete('/medias/:paramId', MediaController.delete);
+routes.delete('/medias/', MediaController.delete);
 
 // MATERIALS
 routes.post('/materials', MaterialController.store);

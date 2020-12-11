@@ -3,7 +3,7 @@ import User from '../models/User';
 class UserController {
 
   /********************************************************************
-  * MÉTODO - CRIAR USUÁRIO NO BD 
+  * CONTROLLER - CRIAR USUÁRIO NO BD 
   * __________________________________________________________________
     * atributos do BODY da REQUISIÇÃO:
     * memberId | name | nickname | email | mobile | oldPassword | password | passwordConfirm

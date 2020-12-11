@@ -1,30 +1,44 @@
-import Member from '../models/Member';
 import * as Yup from 'yup';
+import Member from '../models/Member';
 
 class MemberController {
+  /********************************************************************
+  * CONTROLLER - CRIAR MEMBRO 
+  * __________________________________________________________________
+    * atributos do BODY da REQUISIÇÃO:
+    * tkMemberId | tkUserId | description | oldDescription 
+  ********************************************************************/
   async store(req, res) {
 
+    if (req.tkMemberId !== 1) {
+      return res.status(400).json({ error: 'Grupo não permitido' })
+    }
+    const { description } = req.body;
+    const schema = Yup.object().shape(
+      {
+        description: Yup.string().required().min(3).max(50),
+      }
+    );
+    if (!(await schema.isValid(description))) {
+      return res.status(401).json({ error: 'Falha na validação!' });
+    }
     const memberExist = await Member.findOne({
-      where: { description: req.body.description },
+      where: { description },
     });
     if (memberExist) {
       return res.status(400).json({ error: 'Tipo já existente.' });
     }
+    const member = await Member.create(description);
 
-    // Desconstruir
-    const { description } = await Member.create(req.body);
-
-    return res.json({
-      description,
-    });
+    return res.json({ member });
   }
 
   /********************************************************************
-   * ATUALIZAR BD DE USERS 
-   * ________________________________________________________________
-   * atributos do BODY da REQUISIÇÃO:
-   * memberId | name | nickname | email | mobile | oldPassword | password
- ********************************************************************/
+    * MÉTODO - ATUALIZAR MEMBRO 
+    * ________________________________________________________________
+    * atributos do BODY da REQUISIÇÃO:
+    * Id | description
+  ********************************************************************/
   async update(req, res) {
     /********************************************************************
      * Criar Constantes desistruturando o corpo da requisição
@@ -62,5 +76,26 @@ class MemberController {
     return res.json(resposta);
 
   }
+  /********************************************************************
+* CONTROLLER - LISTAR MATERIAL 
+* __________________________________________________________________
+ * atributos do BODY da REQUISIÇÃO:
+ * | email |   ou req.params - paramMaterial
+********************************************************************/
+  async index(req, res) {
+
+    return res.json({ ok: true });
+  }
+  /********************************************************************
+  * CONTROLLER - REMOVER MATERIAL 
+  * __________________________________________________________________
+    * atributos do BODY da REQUISIÇÃO:
+    * memberId | name | nickname | email | mobile | oldPassword | password 
+  ********************************************************************/
+  async delete(req, res) {
+
+    return res.send();
+  }
+
 }
 export default new MemberController(); 
