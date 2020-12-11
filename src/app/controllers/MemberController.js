@@ -25,7 +25,7 @@ class MemberController {
     }
 
     const descExist = await Member.findOne({
-      where: { description: bodyReq.description },
+      where: { description: bodyReq.description }
     });
     if (descExist) {
       return res.status(400).json({ error: 'Tipo já existente.' });

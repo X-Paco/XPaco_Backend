@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import User from '../models/User';
+import Member from '../models/Member';
 class UserController {
 
   /********************************************************************
@@ -36,6 +37,10 @@ class UserController {
      * Criar Constantes, desistruturando o corpo da requisição
      * memberId, name, nickname, email, password, passwordHash, mobile,
     ********************************************************************/
+    const memberIdExist = await Member.findByPk(bodyReq.memberId);
+    if (!memberIdExist) {
+      return res.status(400).json({ error: `Grupo ${bodyReq.memberId} Não existente` });
+    }
     const emailExist = await User.findOne({
       where: { email: bodyReq.email }
     });
