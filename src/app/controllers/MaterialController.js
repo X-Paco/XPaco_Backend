@@ -14,23 +14,23 @@ class MaterialController {
     if (req.tkMemberId !== 1) {
       return res.status(400).json({ error: 'Grupo não permitido' })
     }
-    const { description } = req.body;
+    const bodyReq = req.body;
     const schema = Yup.object().shape(
       {
         description: Yup.string().required().min(3).max(50),
       }
     );
-    if (!(await schema.isValid(description))) {
+    if (!(await schema.isValid(bodyReq))) {
       return res.status(401).json({ error: 'Falha na validação!' });
     }
 
     const descExist = await Material.findOne({
-      where: { description },
+      where: { description: bodyReq.description },
     });
     if (descExist) {
       return res.status(400).json({ error: 'Tipo já existente.' });
     }
-    const material = await Material.create(description);
+    const material = await Material.create(bodyReq);
     return res.json({ material });
   }
 
@@ -42,7 +42,7 @@ class MaterialController {
   ********************************************************************/
   async update(req, res) {
 
-    if (req.tkMemberId !== 1) {
+    if (req.tkMemberId && (req.tkMemberId !== 1)) {
       return res.status(400).json({ error: 'Grupo não permitido' })
     }
 
@@ -111,32 +111,22 @@ class MaterialController {
     if (!(await schema.isValid(bodyReq))) {
       return res.status(401).json({ error: 'Falha na validação!' });
     }
-    const material = await Material.findByPk(bodyReq.id);
-    if (material) {
-      const tuple = await Material.update({
-        description: bodyReq.description,
-      },
-        {
-          where: { id: material.id },
-        }
-      );
-      return res.json({ tuple });
+    const idExist = await Material.findByPk(bodyReq.id, {
+      attributes: ['id', 'description']
+    });
+    if (idExist) {
+      return res.json({ idExist });
     }
     const descExist = await Material.findOne({
       where: { description: bodyReq.oldDescription }
     });
     if (!descExist) {
-      return res.status(400).json({ error: 'registro não existe' });
+      const listall = await Material.findAll({
+        attributes: ['id', 'description']
+      });
+      return res.json({ listall });
     }
-    const material = await Material.update({
-      description: bodyReq.description,
-    },
-      {
-        where: { id: descExist.id },
-      }
-    );
-
-    return res.json(material);
+    return res.json(descExist);
   }
   /********************************************************************
   * CONTROLLER - REMOVER MATERIAL 
@@ -152,11 +142,11 @@ class MaterialController {
     const paramId = parseInt(req.params.paramId);  // 4
     if (!Number.isNaN(paramId)) {
 
-      const tuple = await Material.findByPk(paramId);
-      if (!tuple) {
+      const idExist = await Material.findByPk(paramId);
+      if (!idExist) {
         return res.status(400).json({ error: 'registro não existe' });
       }
-      await tuple.destroy();
+      await idExist.destroy();
       return res.send();
     }
     const { description } = req.body;
@@ -168,13 +158,13 @@ class MaterialController {
     if (!(await schema.isValid(description))) {
       return res.status(401).json({ error: 'Falha na validação!' });
     }
-    const tuple = await Material.findOne({
+    const descExist = await Material.findOne({
       where: { description },
     });
-    if (!tuple) {
+    if (!descExist) {
       return res.status(400).json({ error: 'registro não existe' });
     }
-    await tuple.destroy();
+    await descExist.destroy();
     return res.send();
   }
 }

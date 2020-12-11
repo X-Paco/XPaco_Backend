@@ -2,89 +2,131 @@ import * as Yup from 'yup';
 import Member from '../models/Member';
 
 class MemberController {
+
   /********************************************************************
-  * CONTROLLER - CRIAR MEMBRO 
-  * __________________________________________________________________
-    * atributos do BODY da REQUISIÇÃO:
-    * tkMemberId | tkUserId | description | oldDescription 
-  ********************************************************************/
+ * CONTROLLER - CRIAR MATERIAL 
+ * __________________________________________________________________
+   * atributos do BODY da REQUISIÇÃO:
+   * Id | Description
+ ********************************************************************/
   async store(req, res) {
 
     if (req.tkMemberId !== 1) {
       return res.status(400).json({ error: 'Grupo não permitido' })
     }
-    const { description } = req.body;
+    const bodyReq = req.body;
     const schema = Yup.object().shape(
       {
         description: Yup.string().required().min(3).max(50),
       }
     );
-    if (!(await schema.isValid(description))) {
-      return res.status(401).json({ error: 'Falha na validação!' });
+    if (!(await schema.isValid(bodyReq))) {
+      return res.status(401).json({ error: 'Falha na validação schema!' });
     }
-    const memberExist = await Member.findOne({
-      where: { description },
+
+    const descExist = await Member.findOne({
+      where: { description: bodyReq.description },
     });
-    if (memberExist) {
+    if (descExist) {
       return res.status(400).json({ error: 'Tipo já existente.' });
     }
-    const member = await Member.create(description);
-
+    const member = await Member.create(bodyReq);
     return res.json({ member });
   }
 
   /********************************************************************
-    * MÉTODO - ATUALIZAR MEMBRO 
+    * CONTROLLER - ATUALIZAR MATERIAL 
     * ________________________________________________________________
     * atributos do BODY da REQUISIÇÃO:
-    * Id | description
+    * Id | Description  | oldDescription
   ********************************************************************/
   async update(req, res) {
-    /********************************************************************
-     * Criar Constantes desistruturando o corpo da requisição
-    ********************************************************************/
-    const bodyReq = req.body;
 
-    /********************************************************************
-     * Recebe tupla do Users se o TOKEN(id)[req.tkUserId] for encontrado.
-     * ___________________________________________________________________
-     * req.tkUserId criado  - no método try/catch em Middleware/auth.js
-     * Middleware/auth.js é Chamado antes dos Controllers em routes.js 
-     ********************************************************************/
-
-    // Se usuário logado for diferente de 1(administrador), recusar.
     if (req.tkMemberId && (req.tkMemberId !== 1)) {
-      return res.status(403).json({ error: 'Não tem autorização' });
+      return res.status(400).json({ error: 'Grupo não permitido' })
     }
 
-    const memberExiste = await Member.findOne({
-      where: { description: bodyReq.description },
-    });
-    if (memberExiste) {
-      return res.status(400).json({ error: 'Tipo já existente.' });
-    }
-
-    // Desconstruir
-    const { description } = await Member.update({
-      description: bodyReq.description,
-    },
+    const bodyReq = req.body;
+    const schema = Yup.object().shape(
       {
-        where: { description: bodyReq.oldDescription },
+        id: Yup.number(),
+        description: Yup.string().required().min(3).max(50),
+        oldDescription: Yup.string().required().min(3).max(50),
       }
     );
-    const resposta = bodyReq.description;
-    return res.json(resposta);
+    if (!(await schema.isValid(bodyReq))) {
+      return res.status(401).json({ error: 'Falha na validação!' });
+    }
+    const idExist = await Member.findByPk(bodyReq.id);
+    if (idExist && (idExist.description == bodyReq.oldDescription)) {
+      await idExist.update({ description: bodyReq.description });
 
+      return res.json({ idExist });
+    }
+    const descExist = await Member.findOne({
+      where: { description: bodyReq.oldDescription }
+    });
+    if (!descExist) {
+      return res.status(400).json({ error: 'Descrição não existe' });
+    }
+    await descExist.update({
+      description: bodyReq.description,
+    });
+
+    return res.json({ descExist });
   }
+
   /********************************************************************
-* CONTROLLER - LISTAR MATERIAL 
-* __________________________________________________________________
- * atributos do BODY da REQUISIÇÃO:
- * | email |   ou req.params - paramMaterial
-********************************************************************/
+  * CONTROLLER - LISTAR MATERIAL 
+  * __________________________________________________________________
+   * atributos do BODY da REQUISIÇÃO:
+   * | email | req.params | paramId | tkMemberId | tkUserId
+   * -----------------------------------------------------------------
+   * /:paramId ==> Rota 1  | / ==> Rota 2 (com body / sem body) 
+  ********************************************************************/
   async index(req, res) {
 
-    return res.json({ ok: true });
+    if (req.tkMemberId !== 1) {
+      return res.status(400).json({ error: 'Grupo não permitido' })
+    }
+    const paramId = parseInt(req.params.paramId);
+    if (!Number.isNaN(paramId)) {
+      const idExist = await Member.findByPk(paramId, {
+        attributes: [
+          'id', 'description'
+        ],
+      });
+      if (!idExist) {
+        return res.status(400).json({ error: `o argumento ${idExist} não existe` });
+      }
+      return res.json({ idExist });
+    }
+    const bodyReq = req.body;
+    const schema = Yup.object().shape(
+      {
+        id: Yup.number(),
+        description: Yup.string().min(3).max(50),
+      }
+    );
+    if (!(await schema.isValid(bodyReq))) {
+      return res.status(401).json({ error: 'Falha na validação!' });
+    }
+    const idExist = await Member.findByPk(bodyReq.id, {
+      attributes: ['id', 'description']
+    });
+    if (idExist) {
+      return res.json({ idExist });
+    }
+    const descExist = await Member.findOne({
+      where: { description: bodyReq.oldDescription }
+    });
+    if (!descExist) {
+      const listall = await Member.findAll({
+        attributes: ['id', 'description']
+      });
+      return res.json({ listall });
+    }
+    return res.json(descExist);
   }
   /********************************************************************
   * CONTROLLER - REMOVER MATERIAL 
@@ -94,8 +136,36 @@ class MemberController {
   ********************************************************************/
   async delete(req, res) {
 
+    // if (req.tkMemberId !== 1) {
+    //   return res.status(400).json({ error: 'Grupo não permitido' })
+    // }
+    const paramId = parseInt(req.params.paramId);  // 4
+    if (!Number.isNaN(paramId)) {
+
+      const idExist = await Member.findByPk(paramId);
+      if (!idExist) {
+        return res.status(400).json({ error: 'registro não existe' });
+      }
+      await idExist.destroy();
+      return res.send();
+    }
+    const { description } = req.body;
+    const schema = Yup.object().shape(
+      {
+        description: Yup.string().required().max(50),
+      }
+    );
+    if (!(await schema.isValid(description))) {
+      return res.status(401).json({ error: 'Falha na validação!' });
+    }
+    const descExist = await Member.findOne({
+      where: { description },
+    });
+    if (!descExist) {
+      return res.status(400).json({ error: 'registro não existe' });
+    }
+    await descExist.destroy();
     return res.send();
   }
-
 }
-export default new MemberController(); 
+export default new MemberController;
