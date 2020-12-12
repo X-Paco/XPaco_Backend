@@ -242,6 +242,7 @@ class UserController {
 
     }
     return res.json({ ok: true });
+
   }
   /********************************************************************
   * MÉTODO - REMOVER USUÁRIO NO BD 
