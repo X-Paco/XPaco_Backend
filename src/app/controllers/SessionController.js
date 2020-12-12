@@ -29,7 +29,7 @@ class SessionController {
     /* ******************************************************************* 
       vamos desconstruir o user e obtendo 3 atributos da tupla  
     ******************************************************************** */
-    const { id, name, memberId, passwordHash, } = user;
+    const { id, name, memberId, passwordHash, mobile, } = user;
     /* ******************************************************************* 
       (checkPassword) é a função importada do model User.
       Passamos o password como paramentro e verificamos se password é igual
@@ -47,6 +47,7 @@ class SessionController {
         id,
         name,
         email,
+        mobile,
         memberId,
         passwordHash,
       },

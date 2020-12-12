@@ -84,7 +84,7 @@ class MaterialController {
    * -----------------------------------------------------------------
    * /:paramId ==> Rota 1  | / ==> Rota 2 (com body / sem body) 
   ********************************************************************/
-  async index(req, res) {
+  async show(req, res) {
 
     if (req.tkMemberId !== 1) {
       return res.status(400).json({ error: 'Grupo não permitido' })
