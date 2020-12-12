@@ -220,16 +220,28 @@ class UserController {
     if (!(await schema.isValid(bodyReq))) {
       return res.status(401).json({ error: 'Falha na validação!' });
     }
+
     if (bodyReq.memberId) {
+      if (req.tkMemberId) {
+        if (req.tkMemberId !== bodyReq.memberId && (req.tkMemberId !== 1)) {
+          return res.status(401).json({ error: 'exibição Não autorizada' });
+        }
+      }
       const memberIdExist = await User.findAll({
         where: { memberId: bodyReq.memberId },
         attributes: [
           'id', 'name', 'nickname', 'email', 'mobile', 'memberId'
         ],
       });
+
       return res.json(memberIdExist);
     }
     if (bodyReq.id) {
+      if (req.tkUserId) {
+        if (req.tkUserId !== bodyReq.id && (req.tkMemberId !== 1)) {
+          return res.status(401).json({ error: 'exibição Não autorizada' });
+        }
+      }
       const memberIdExist = await User.findAll({
         where: { id: bodyReq.id },
         attributes: [
